@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD6KUQp76kpcJCtvGcZKP1UT-m29BzGRlA",
-  authDomain: "photoapp-5b23c.firebaseapp.com",
-  projectId: "photoapp-5b23c",
-  storageBucket: "photoapp-5b23c.appspot.com",
-  messagingSenderId: "942847437557",
-  appId: "1:942847437557:web:820caee437a57fb50bb3bc",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
