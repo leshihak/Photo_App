@@ -9,14 +9,17 @@ const TABS: TabType[] = [
   {
     label: "POSTS",
     icon: <GridOnIcon />,
+    pathname: "/statement",
   },
   {
     label: "VIDEOS",
     icon: <PlayCircleOutlineIcon />,
+    pathname: "/statement/videos",
   },
   {
     label: "SAVED",
     icon: <BookmarkIcon />,
+    pathname: "/statement/saved",
   },
 ];
 
