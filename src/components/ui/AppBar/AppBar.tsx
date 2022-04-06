@@ -119,7 +119,7 @@ const AppBar: FC = () => {
         backgroundColor: "white",
       }}
     >
-      <Container maxWidth="md">
+      <Container sx={{ "&.MuiContainer-root": { maxWidth: 975, p: 0 } }}>
         <Toolbar
           disableGutters
           sx={{

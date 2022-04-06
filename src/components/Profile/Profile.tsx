@@ -51,10 +51,10 @@ const DUMMY_IMAGES = [
 
 const Profile: FC<ProfileProps> = ({ onTabChange, tabValue, tabs }) => {
   return (
-    <Box width={1} maxWidth="975px" margin="35px auto" padding="30px 20px 0">
+    <>
       <Tabs tabs={tabs} onChange={onTabChange} value={tabValue} />
       <ItemGrid items={DUMMY_IMAGES} />
-    </Box>
+    </>
   );
 };
 
