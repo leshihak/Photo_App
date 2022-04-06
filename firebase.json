@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "site": "photo-sharing-app",
+    "public": "build",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}
