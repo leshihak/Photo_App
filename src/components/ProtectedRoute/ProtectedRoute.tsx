@@ -4,11 +4,16 @@ import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   user: User | null;
+  isLoading: boolean;
   children: JSX.Element;
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, user }) => {
-  if (!user) {
+const ProtectedRoute: FC<ProtectedRouteProps> = ({
+  children,
+  user,
+  isLoading,
+}) => {
+  if (!user && !isLoading) {
     return <Navigate to="/login" replace />;
   }
 

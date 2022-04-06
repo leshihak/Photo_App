@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Outlet } from "react-router-dom";
+import AppBar from "../AppBar/AppBar";
 
 const DashboardWrapper: FC = () => (
   <>
-    Wrapper
+    <AppBar />
     <Outlet />
-    Wrapper
   </>
 );
 

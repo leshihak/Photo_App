@@ -16,7 +16,7 @@ import useAuth from "./hooks/useAuth";
 getApps().length === 0 ? app : getApp();
 
 const App: FC = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
   return (
     <Routes>
@@ -25,7 +25,7 @@ const App: FC = () => {
         <Route
           index
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={user} isLoading={isLoading}>
               <DashboardContainer />
             </ProtectedRoute>
           }

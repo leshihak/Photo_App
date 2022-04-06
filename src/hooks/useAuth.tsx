@@ -1,33 +1,36 @@
 import { User, getAuth, onAuthStateChanged, Auth } from "firebase/auth";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 interface UseAuth {
   user: User | null;
   auth: Auth;
+  isLoading: boolean;
 }
 
 const useAuth = (): UseAuth => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const auth = getAuth();
-  let mounted = useRef(false);
 
   useEffect(() => {
-    mounted.current = true;
+    setIsLoading(true);
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user && mounted.current) {
+      if (user) {
         setUser(user);
-      } else if (!user && mounted.current) {
+        setIsLoading(false);
+      } else {
         setUser(null);
+        setIsLoading(true);
       }
     });
 
     return () => {
-      mounted.current = false;
+      setIsLoading(false);
       unsubscribe();
     };
   }, [auth]);
 
-  return { user, auth };
+  return { user, auth, isLoading };
 };
 
 export default useAuth;
