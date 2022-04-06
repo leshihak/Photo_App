@@ -31,6 +31,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import useAuth from "../../../hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
   { icon: <HomeOutlinedIcon />, id: "HomeOutlinedIcon" },
@@ -40,12 +41,6 @@ const pages = [
   },
   { icon: <AddCircleOutlineIcon />, id: "AddCircleOutlineIcon" },
   { icon: <FavoriteBorderIcon />, id: "FavoriteBorderIcon" },
-];
-const settings = [
-  { text: "Profile", icon: <AccountCircleIcon /> },
-  { text: "Saved", icon: <BookmarkIcon /> },
-  { text: "Settings", icon: <SettingsIcon /> },
-  { text: "Switch Accounts", icon: <SwitchAccountIcon /> },
 ];
 
 const Search = styled("div")(({ theme }) => ({
@@ -90,6 +85,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const AppBar: FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -100,6 +96,21 @@ const AppBar: FC = () => {
   if (!user) {
     return <Loader />;
   }
+
+  const settings = [
+    {
+      text: "Profile",
+      icon: <AccountCircleIcon />,
+      href: `/${user.uid}`,
+    },
+    { text: "Saved", icon: <BookmarkIcon />, href: `/${user.uid}` },
+    { text: "Settings", icon: <SettingsIcon />, href: `/${user.uid}` },
+    {
+      text: "Switch Accounts",
+      icon: <SwitchAccountIcon />,
+      href: `/${user.uid}`,
+    },
+  ];
 
   return (
     <AppBarComponent
@@ -211,7 +222,10 @@ const AppBar: FC = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.text} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting.text}
+                  onClick={() => navigate(setting.href)}
+                >
                   <ListItemIcon sx={{ svg: { width: 16, height: 16 } }}>
                     {setting.icon}
                   </ListItemIcon>
