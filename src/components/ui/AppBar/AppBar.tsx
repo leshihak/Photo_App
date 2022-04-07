@@ -17,7 +17,6 @@ import {
   MenuItem,
   styled,
   Toolbar,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -30,17 +29,38 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import useAuth from "../../../hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import HomeIcon from "@mui/icons-material/Home";
 import Loader from "../Loader/Loader";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const pages = [
-  { icon: <HomeOutlinedIcon />, id: "HomeOutlinedIcon" },
+  {
+    icon: <HomeOutlinedIcon />,
+    activeIcon: <HomeIcon />,
+    id: "HomeOutlinedIcon",
+    href: "/",
+  },
   {
     icon: <ChatBubbleOutlineOutlinedIcon />,
+    activeIcon: <ChatBubbleIcon />,
     id: "ChatBubbleOutlineOutlinedIcon",
+    href: "/inbox",
   },
-  { icon: <AddCircleOutlineIcon />, id: "AddCircleOutlineIcon" },
-  { icon: <FavoriteBorderIcon />, id: "FavoriteBorderIcon" },
+  {
+    icon: <AddCircleOutlineIcon />,
+    activeIcon: <AddCircleIcon />,
+    id: "AddCircleOutlineIcon",
+    href: "/add",
+  },
+  {
+    icon: <FavoriteBorderIcon />,
+    activeIcon: <FavoriteIcon />,
+    id: "FavoriteBorderIcon",
+    href: "/favorite",
+  },
 ];
 
 const Search = styled("div")(({ theme }) => ({
@@ -86,6 +106,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const AppBar: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -128,7 +149,12 @@ const AppBar: FC = () => {
             height: 60,
           }}
         >
-          <Box width="103px" height="29px">
+          <Box
+            width="103px"
+            height="29px"
+            onClick={() => navigate("/")}
+            sx={{ cursor: "pointer" }}
+          >
             <InstagramLogo />
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -157,7 +183,13 @@ const AppBar: FC = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.id} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page.id}
+                  onClick={() => {
+                    navigate(page.href);
+                    handleCloseNavMenu();
+                  }}
+                >
                   {page.icon}
                 </MenuItem>
               ))}
@@ -182,30 +214,34 @@ const AppBar: FC = () => {
           </Typography>
           <Box sx={{ flexGrow: 0 }} display="flex">
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page.id}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "black", display: "flex" }}
-                >
-                  {page.icon}
-                </Button>
-              ))}
+              {pages.map((page) => {
+                const isActiveIcon = location.pathname === page.href;
+                return (
+                  <Button
+                    key={page.id}
+                    onClick={() => {
+                      navigate(page.href);
+                      handleCloseNavMenu();
+                    }}
+                    sx={{ my: 2, color: "black", display: "flex" }}
+                  >
+                    {isActiveIcon ? page.activeIcon : page.icon}
+                  </Button>
+                );
+              })}
             </Box>
-            <Tooltip title="Open settings">
-              <IconButton
-                onClick={(event) => setAnchorElUser(event.currentTarget)}
-                sx={{ p: 0 }}
-              >
-                {user.displayName && user.photoURL && (
-                  <Avatar
-                    alt={user.displayName}
-                    src={user.photoURL}
-                    sx={{ width: 24, height: 24 }}
-                  />
-                )}
-              </IconButton>
-            </Tooltip>
+            <IconButton
+              onClick={(event) => setAnchorElUser(event.currentTarget)}
+              sx={{ p: 0 }}
+            >
+              {user.displayName && user.photoURL && (
+                <Avatar
+                  alt={user.displayName}
+                  src={user.photoURL}
+                  sx={{ width: 24, height: 24 }}
+                />
+              )}
+            </IconButton>
             <Menu
               sx={{ mt: "45px" }}
               anchorEl={anchorElUser}
@@ -224,7 +260,10 @@ const AppBar: FC = () => {
               {settings.map((setting) => (
                 <MenuItem
                   key={setting.text}
-                  onClick={() => navigate(setting.href)}
+                  onClick={() => {
+                    navigate(setting.href);
+                    handleCloseUserMenu();
+                  }}
                 >
                   <ListItemIcon sx={{ svg: { width: 16, height: 16 } }}>
                     {setting.icon}
