@@ -22,17 +22,17 @@ const ProfileContainer: FC = () => {
     {
       label: "POSTS",
       icon: <GridOnIcon />,
-      pathname: `user/${user.uid}`,
+      pathname: `${user.uid}`,
     },
     {
       label: "VIDEOS",
       icon: <PlayCircleOutlineIcon />,
-      pathname: `user/${user.uid}/videos`,
+      pathname: `${user.uid}/videos`,
     },
     {
       label: "SAVED",
       icon: <BookmarkIcon />,
-      pathname: `user/${user.uid}/saved`,
+      pathname: `${user.uid}/saved`,
     },
   ];
 

@@ -30,9 +30,12 @@ const App: FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="user/:id" element={<ProfileContainer />} />
-        <Route path="user/:id/videos" element={<VideoPostsContainer />} />
-        <Route path="user/:id/saved" element={<SavedPostsContainer />} />
+        <Route>
+          <Route path="user/:id" element={<ProfileContainer />} />
+          <Route path="user/:id/videos" element={<VideoPostsContainer />} />
+          <Route path="user/:id/saved" element={<SavedPostsContainer />} />
+          <Route path="*" element={<NoMatch />} />
+        </Route>
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>
