@@ -45,7 +45,7 @@ const ItemGrid: FC<ItemGridProps> = ({ items }) => {
                 top="28px"
                 width="91%"
                 height="91%"
-                sx={{ backgroundColor: "rgba(178,178,178,0.3)" }}
+                sx={{ backgroundColor: "rgb(58 58 58 / 59%)" }}
               >
                 <Box display="flex" alignItems="center">
                   <FavoriteIcon sx={{ color: "white", mr: 0.5 }} />
