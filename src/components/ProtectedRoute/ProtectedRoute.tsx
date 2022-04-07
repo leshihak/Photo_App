@@ -13,7 +13,7 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
   user,
   isLoading,
 }) => {
-  if (!user && !isLoading) {
+  if (!user && isLoading) {
     return <Navigate to="/login" replace />;
   }
 

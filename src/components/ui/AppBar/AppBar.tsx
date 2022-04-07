@@ -35,6 +35,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
 import Loader from "../Loader/Loader";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
 const pages = [
   {
@@ -104,6 +105,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const AppBar: FC = () => {
+  const auth = getAuth();
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -132,6 +134,11 @@ const AppBar: FC = () => {
       href: `user/${user.uid}`,
     },
   ];
+
+  const handleSignOut = () =>
+    signOut(auth)
+      .then(() => navigate("/login"))
+      .catch((error) => console.log(`Error: ${error}`));
 
   return (
     <AppBarComponent
@@ -274,7 +281,7 @@ const AppBar: FC = () => {
                 </MenuItem>
               ))}
               <Divider />
-              <MenuItem>
+              <MenuItem onClick={handleSignOut}>
                 <ListItemText sx={{ span: { fontSize: 14 } }}>
                   Log Out
                 </ListItemText>
