@@ -122,14 +122,14 @@ const AppBar: FC = () => {
     {
       text: "Profile",
       icon: <AccountCircleIcon />,
-      href: `/${user.uid}`,
+      href: `user/${user.uid}`,
     },
-    { text: "Saved", icon: <BookmarkIcon />, href: `/${user.uid}` },
-    { text: "Settings", icon: <SettingsIcon />, href: `/${user.uid}` },
+    { text: "Saved", icon: <BookmarkIcon />, href: `user/${user.uid}` },
+    { text: "Settings", icon: <SettingsIcon />, href: `user/${user.uid}` },
     {
       text: "Switch Accounts",
       icon: <SwitchAccountIcon />,
-      href: `/${user.uid}`,
+      href: `user/${user.uid}`,
     },
   ];
 

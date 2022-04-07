@@ -6,7 +6,13 @@ import AppBar from "../AppBar/AppBar";
 const DashboardWrapper: FC = () => (
   <>
     <AppBar />
-    <Box width={1} maxWidth="975px" margin="64px auto" padding="30px 20px 0">
+    <Box
+      width={1}
+      maxWidth="975px"
+      margin="64px auto"
+      padding="30px 20px 0"
+      height="calc(100vh - 160px)"
+    >
       <Outlet />
     </Box>
   </>
