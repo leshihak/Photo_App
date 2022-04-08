@@ -1,5 +1,5 @@
 import { FC, SyntheticEvent } from "react";
-import { Link, Tab, Tabs as TabsComponent } from "@mui/material";
+import { Tab, Tabs as TabsComponent } from "@mui/material";
 import { TabType } from "../../../models/ui.model";
 
 interface TabsProps {
@@ -35,8 +35,6 @@ const Tabs: FC<TabsProps> = ({ tabs, value, onChange }) => (
   >
     {tabs.map((tab) => (
       <Tab
-        component={Link}
-        href={tab.pathname}
         key={tab.label}
         label={tab.label}
         icon={tab.icon}

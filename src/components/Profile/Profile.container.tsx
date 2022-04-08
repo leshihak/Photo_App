@@ -6,35 +6,56 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import useAuth from "../../hooks/useAuth";
 import Loader from "../ui/Loader/Loader";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const TABS: TabType[] = [
+  {
+    label: "POSTS",
+    icon: <GridOnIcon />,
+  },
+  {
+    label: "VIDEOS",
+    icon: <PlayCircleOutlineIcon />,
+  },
+  {
+    label: "SAVED",
+    icon: <BookmarkIcon />,
+  },
+];
 
 const ProfileContainer: FC = () => {
   const { user } = useAuth();
-  const [tabValue, setTabValue] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleTabChange = (event: SyntheticEvent, newValue: number) =>
+  const tabNameToIndex: { [key: number]: string } = {
+    0: `/user/${user?.uid}`,
+    1: `/user/${user?.uid}/videos`,
+    2: `/user/${user?.uid}/saved`,
+  };
+
+  const indexToTab: { [key: string]: number } = {
+    [`/user/${user?.uid}`]: 0,
+    [`/user/${user?.uid}/videos`]: 1,
+    [`/user/${user?.uid}/saved`]: 2,
+  };
+
+  const [tabValue, setTabValue] = useState(indexToTab[location.pathname] ?? 0);
+
+  const handleTabChange = (event: SyntheticEvent, newValue: number) => {
+    navigate(tabNameToIndex[newValue]);
     setTabValue(newValue);
+  };
+
+  // NEED TO FIX (CLICK ON PROFILE IMG)
+  // useEffect(() => {
+  //   setTabValue(indexToTab[location.pathname]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location]);
 
   if (!user) {
     return <Loader />;
   }
-
-  const TABS: TabType[] = [
-    {
-      label: "POSTS",
-      icon: <GridOnIcon />,
-      pathname: `${user.uid}`,
-    },
-    {
-      label: "VIDEOS",
-      icon: <PlayCircleOutlineIcon />,
-      pathname: `${user.uid}/videos`,
-    },
-    {
-      label: "SAVED",
-      icon: <BookmarkIcon />,
-      pathname: `${user.uid}/saved`,
-    },
-  ];
 
   return (
     <Profile onTabChange={handleTabChange} tabValue={tabValue} tabs={TABS} />

@@ -3,8 +3,6 @@ import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
 import DashboardContainer from "./components/Dashboard/Dashboard.container";
-import SavedPostsContainer from "./components/Posts/SavedPosts/SavedPostsContainer";
-import VideoPostsContainer from "./components/Posts/VideoPosts/VideoPostsContainer";
 import ProfileContainer from "./components/Profile/Profile.container";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import DashboardWrapper from "./components/ui/DashboardWrapper/DashboardWrapper";
@@ -32,8 +30,7 @@ const App: FC = () => {
         />
         <Route>
           <Route path="user/:id" element={<ProfileContainer />} />
-          <Route path="user/:id/videos" element={<VideoPostsContainer />} />
-          <Route path="user/:id/saved" element={<SavedPostsContainer />} />
+          <Route path="user/:id/:page" element={<ProfileContainer />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
         <Route path="*" element={<NoMatch />} />
