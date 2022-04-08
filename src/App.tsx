@@ -31,6 +31,7 @@ const App: FC = () => {
         <Route>
           <Route path="user/:id" element={<ProfileContainer />} />
           <Route path="user/:id/:page" element={<ProfileContainer />} />
+          <Route path="user/:id/:page/:id" element={<ProfileContainer />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
         <Route path="*" element={<NoMatch />} />
