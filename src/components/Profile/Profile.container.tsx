@@ -7,12 +7,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import useAuth from "../../hooks/useAuth";
 import Loader from "../ui/Loader/Loader";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Modal, Box } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import { renderItemGrid } from "../ui/ItemGrid/ItemGrid";
-import useKeyPress from "../../hooks/useKeyPress";
+import ModalSlideshow from "../ui/ModalSlideshow/ModalSlideshow";
 
 const data: { [key: string]: { alt?: string; id: string; url: string }[] } = {
   images: [
@@ -96,10 +91,6 @@ const ProfileContainer: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const leftPress = useKeyPress("ArrowLeft");
-  const rightPress = useKeyPress("ArrowRight");
-
-  console.log(leftPress, rightPress);
 
   const tabNameToIndex: { [key: number]: string } = {
     0: `/user/${user?.uid}`,
@@ -153,15 +144,6 @@ const ProfileContainer: FC = () => {
     setActiveItemId(id);
   };
 
-  const handleCloseModal = () => {
-    navigate(
-      `/user/${user?.uid}${selectedType === "images" ? "" : `/${selectedType}`}`
-    );
-    setOpenModal(false);
-  };
-
-  const hideRightArrow = activeItemIndex !== data[selectedType].length - 1;
-
   return (
     <>
       <Profile
@@ -171,104 +153,14 @@ const ProfileContainer: FC = () => {
         onItemClick={handleItemClick}
         data={data}
       />
-      <Modal
-        open={openModal}
-        onClose={handleCloseModal}
-        sx={{
-          ".MuiBackdrop-root": {
-            backgroundColor: "black",
-            opacity: "0.7 !important",
-          },
-        }}
-      >
-        <>
-          {activeItemIndex !== 0 && (
-            <Box
-              position="absolute"
-              left="10px"
-              top="50%"
-              onClick={() => {
-                navigate(
-                  `/user/${user?.uid}/${selectedType}/${
-                    data[selectedType][activeItemIndex - 1].id
-                  }`
-                );
-                setActiveItemIndex((prev) => prev - 1);
-              }}
-            >
-              <ArrowCircleLeftIcon
-                sx={{
-                  color: "white",
-                  width: 40,
-                  height: 40,
-                  cursor: "pointer",
-                }}
-              />
-            </Box>
-          )}
-          <Box position="absolute" p={1.5} right={0} onClick={handleCloseModal}>
-            <CloseIcon
-              sx={{ color: "white", width: 40, height: 40, cursor: "pointer" }}
-            />
-          </Box>
-          <Box
-            position="absolute"
-            top="50%"
-            left="50%"
-            bgcolor="white"
-            sx={{ transform: "translate(-50%, -50%)" }}
-            width={400}
-            p={4}
-          >
-            <Box
-              sx={{
-                objectFit: "cover",
-                height: "293px",
-                width: "293px",
-                position: "relative",
-              }}
-            >
-              {renderItemGrid(
-                data[selectedType][activeItemIndex],
-                selectedType
-              )}
-              {/* <img
-                alt={data[selectedType][activeItemIndex].alt}
-                src={data[selectedType][activeItemIndex].url}
-                style={{
-                  objectFit: "cover",
-                  height: "100%",
-                  width: "100%",
-                }}
-              /> */}
-            </Box>
-          </Box>
-          {hideRightArrow && (
-            <Box
-              position="absolute"
-              right="10px"
-              top="50%"
-              onClick={() => {
-                navigate(
-                  `/user/${user?.uid}/${selectedType}/${
-                    data[selectedType][activeItemIndex + 1].id
-                  }`
-                );
-                setActiveItemIndex((prev) => prev + 1);
-              }}
-            >
-              <ArrowCircleRightIcon
-                sx={{
-                  color: "white",
-                  width: 40,
-                  height: 40,
-                  cursor: "pointer",
-                }}
-              />
-            </Box>
-          )}
-        </>
-      </Modal>
+      <ModalSlideshow
+        activeIndex={activeItemIndex}
+        data={data}
+        openModal={openModal}
+        onOpenModal={setOpenModal}
+        type={selectedType}
+        onActiveIndex={setActiveItemIndex}
+      />
     </>
   );
 };
