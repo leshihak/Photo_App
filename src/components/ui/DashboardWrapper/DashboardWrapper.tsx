@@ -11,7 +11,7 @@ const DashboardWrapper: FC = () => (
       height="calc(100% - 30px)"
       maxWidth="975px"
       margin="64px auto"
-      padding="30px 20px 0"
+      padding="30px 0"
     >
       <Outlet />
     </Box>

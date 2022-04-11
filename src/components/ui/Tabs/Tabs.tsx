@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent } from "react";
 import { Tab, Tabs as TabsComponent } from "@mui/material";
-import { TabType } from "../../../models/ui.model";
+import { TabType } from "models/ui.model";
 
 interface TabsProps {
   tabs: TabType[];

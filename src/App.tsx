@@ -1,16 +1,16 @@
 import { getApp, getApps } from "firebase/app";
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import Auth from "./components/Auth/Auth";
-import DashboardContainer from "./components/Dashboard/Dashboard.container";
-import ProfileContainer from "./components/Profile/Profile.container";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import DashboardWrapper from "./components/ui/DashboardWrapper/DashboardWrapper";
-import NoMatch from "./components/ui/NoMatch/NoMatch";
 import { app } from "./config/firebase";
 import useAuth from "./hooks/useAuth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Auth from "components/Auth/Auth";
+import DashboardContainer from "components/Dashboard/Dashboard.container";
+import ProfileContainer from "components/Profile/Profile.container";
+import ProtectedRoute from "components/ProtectedRoute/ProtectedRoute";
+import DashboardWrapper from "components/ui/DashboardWrapper/DashboardWrapper";
+import NoMatch from "components/ui/NoMatch/NoMatch";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 getApps().length === 0 ? app : getApp();

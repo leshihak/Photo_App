@@ -1,14 +1,14 @@
 import { FC, SyntheticEvent, useEffect, useState } from "react";
-import { TabType } from "../../models/ui.model";
-import Profile from "./Profile";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import useAuth from "../../hooks/useAuth";
-import Loader from "../ui/Loader/Loader";
 import { useNavigate, useLocation } from "react-router-dom";
-import ModalSlideshow from "../ui/ModalSlideshow/ModalSlideshow";
-import { PostData, PostType } from "../../models/post.model";
+import useAuth from "hooks/useAuth";
+import Loader from "components/ui/Loader/Loader";
+import { PostData, PostType } from "models/post.model";
+import { TabType } from "models/ui.model";
+import Profile from "./Profile";
+import ModalSlideshow from "components/ui/ModalSlideshow/ModalSlideshow";
 
 const data: PostData = {
   images: [

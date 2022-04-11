@@ -27,16 +27,16 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import useAuth from "../../../hooks/useAuth";
-import InstagramLogo from "../Icons/InstagramLogo";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
-import Loader from "../Loader/Loader";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
+import useAuth from "hooks/useAuth";
+import InstagramLogo from "../Icons/InstagramLogo";
+import Loader from "../Loader/Loader";
 
 const pages = [
   {

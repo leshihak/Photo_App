@@ -1,8 +1,8 @@
 import { Box, Button } from "@mui/material";
+import GoogleLogo from "components/ui/Icons/GoogleLogo";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import GoogleLogo from "../ui/Icons/GoogleLogo";
 import { toast } from "react-toastify";
 
 const Auth: FC = () => {
@@ -18,7 +18,7 @@ const Auth: FC = () => {
   return (
     <Box
       height="100vh"
-      bgcolor="black"
+      bgcolor="common.black"
       display="flex"
       flexDirection="column"
       alignItems="center"

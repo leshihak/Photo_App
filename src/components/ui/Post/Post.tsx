@@ -8,14 +8,14 @@ import {
 } from "@mui/material";
 import { User } from "firebase/auth";
 import { FC, useState } from "react";
-import { renderItemGrid } from "../ItemGrid/ItemGrid";
-import Loader from "../Loader/Loader";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
-import { PostData, PostType } from "../../../models/post.model";
+import { PostData, PostType } from "models/post.model";
+import { renderItemGrid } from "../ItemGrid/ItemGrid";
+import Loader from "../Loader/Loader";
 
 interface PostProps {
   user: User | null;
@@ -42,7 +42,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
       position="absolute"
       top="50%"
       left="50%"
-      bgcolor="white"
+      bgcolor="common.white"
       sx={{ transform: "translate(-50%, -50%)" }}
       height={1}
       maxHeight={840}

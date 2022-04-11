@@ -1,23 +1,17 @@
 import { Modal, Box } from "@mui/material";
 import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import useKeyPress from "../../../hooks/useKeyPress";
 import Post from "../Post/Post";
+import useAuth from "hooks/useAuth";
+import useKeyPress from "hooks/useKeyPress";
+import { PostData } from "models/post.model";
 
 interface ModalSlideshowProps {
   activeIndex: number;
-  data: {
-    // NEED TO ADD TYPE
-    [key: string]: {
-      alt?: string;
-      id: string;
-      url: string;
-    }[];
-  };
+  data: PostData;
   openModal: boolean;
   onOpenModal: Dispatch<SetStateAction<boolean>>;
   onActiveIndex: Dispatch<SetStateAction<number>>;

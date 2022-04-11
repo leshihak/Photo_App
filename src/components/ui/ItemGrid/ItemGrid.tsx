@@ -1,10 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { FC } from "react";
-import { ItemGridType } from "../../../models/ui.model";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ReactPlayer from "react-player/youtube";
-import { PostType } from "../../../models/post.model";
+import { PostType } from "models/post.model";
+import { ItemGridType } from "models/ui.model";
 
 interface ItemGridProps {
   items: ItemGridType[];

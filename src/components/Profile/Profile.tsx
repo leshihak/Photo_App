@@ -1,8 +1,8 @@
+import ItemGrid from "components/ui/ItemGrid/ItemGrid";
+import Tabs from "components/ui/Tabs/Tabs";
+import { PostType, PostData } from "models/post.model";
+import { TabType } from "models/ui.model";
 import { FC, SyntheticEvent } from "react";
-import { PostData, PostType } from "../../models/post.model";
-import { TabType } from "../../models/ui.model";
-import ItemGrid from "../ui/ItemGrid/ItemGrid";
-import Tabs from "../ui/Tabs/Tabs";
 
 interface ProfileProps {
   tabs: TabType[];
