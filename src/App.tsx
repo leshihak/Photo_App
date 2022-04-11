@@ -9,6 +9,8 @@ import DashboardWrapper from "./components/ui/DashboardWrapper/DashboardWrapper"
 import NoMatch from "./components/ui/NoMatch/NoMatch";
 import { app } from "./config/firebase";
 import useAuth from "./hooks/useAuth";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 getApps().length === 0 ? app : getApp();
@@ -36,6 +38,7 @@ const App: FC = () => {
         </Route>
         <Route path="*" element={<NoMatch />} />
       </Route>
+      <ToastContainer />
     </Routes>
   );
 };

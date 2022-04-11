@@ -36,6 +36,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Loader from "../Loader/Loader";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const pages = [
   {
@@ -138,7 +139,7 @@ const AppBar: FC = () => {
   const handleSignOut = () =>
     signOut(auth)
       .then(() => navigate("/login"))
-      .catch((error) => console.log(`Error: ${error}`));
+      .catch((error) => toast.error(error.message));
 
   return (
     <AppBarComponent

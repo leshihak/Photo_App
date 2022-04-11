@@ -3,6 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import GoogleLogo from "../ui/Icons/GoogleLogo";
+import { toast } from "react-toastify";
 
 const Auth: FC = () => {
   const auth = getAuth();
@@ -12,7 +13,7 @@ const Auth: FC = () => {
   const handleSignIn = () =>
     signInWithPopup(auth, provider)
       .then(() => navigate("/"))
-      .catch((error) => console.log(error.message));
+      .catch((error) => toast.error(error.message));
 
   return (
     <Box
