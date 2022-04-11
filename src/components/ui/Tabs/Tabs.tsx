@@ -35,6 +35,7 @@ const Tabs: FC<TabsProps> = ({ tabs, value, onChange }) => (
   >
     {tabs.map((tab) => (
       <Tab
+        disableRipple
         key={tab.label}
         label={tab.label}
         icon={tab.icon}
@@ -42,6 +43,7 @@ const Tabs: FC<TabsProps> = ({ tabs, value, onChange }) => (
         sx={{
           fontSize: 12,
           color: "#9b908e",
+          "&:active": { opacity: 0.5 },
         }}
       />
     ))}

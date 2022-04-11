@@ -9,7 +9,7 @@ const DashboardWrapper: FC = () => (
     <Box
       width={1}
       height="calc(100% - 30px)"
-      maxWidth="975px"
+      maxWidth="935px"
       margin="64px auto"
       padding="30px 0"
     >
