@@ -19,27 +19,29 @@ const App: FC = () => {
   const { user, isLoading } = useAuth();
 
   return (
-    <Routes>
-      <Route path="/login" element={<Auth />} />
-      <Route element={<DashboardWrapper />}>
-        <Route
-          index
-          element={
-            <ProtectedRoute user={user} isLoading={isLoading}>
-              <DashboardContainer />
-            </ProtectedRoute>
-          }
-        />
-        <Route>
-          <Route path="user/:id" element={<ProfileContainer />} />
-          <Route path="user/:id/:page" element={<ProfileContainer />} />
-          <Route path="user/:id/:page/:id" element={<ProfileContainer />} />
+    <>
+      <Routes>
+        <Route path="/login" element={<Auth />} />
+        <Route element={<DashboardWrapper />}>
+          <Route
+            index
+            element={
+              <ProtectedRoute user={user} isLoading={isLoading}>
+                <DashboardContainer />
+              </ProtectedRoute>
+            }
+          />
+          <Route>
+            <Route path="user/:id" element={<ProfileContainer />} />
+            <Route path="user/:id/:page" element={<ProfileContainer />} />
+            <Route path="user/:id/:page/:id" element={<ProfileContainer />} />
+            <Route path="*" element={<NoMatch />} />
+          </Route>
           <Route path="*" element={<NoMatch />} />
         </Route>
-        <Route path="*" element={<NoMatch />} />
-      </Route>
+      </Routes>
       <ToastContainer />
-    </Routes>
+    </>
   );
 };
 
