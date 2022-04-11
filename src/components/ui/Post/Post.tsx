@@ -15,17 +15,12 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined";
+import { PostData, PostType } from "../../../models/post.model";
 
 interface PostProps {
   user: User | null;
-  data: {
-    [key: string]: {
-      alt?: string;
-      id: string;
-      url: string;
-    }[];
-  };
-  type: "images" | "videos" | "saved";
+  data: PostData;
+  type: PostType;
   activeIndex: number;
 }
 

@@ -4,17 +4,15 @@ import { ItemGridType } from "../../../models/ui.model";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ReactPlayer from "react-player/youtube";
+import { PostType } from "../../../models/post.model";
 
 interface ItemGridProps {
   items: ItemGridType[];
-  type: "images" | "videos" | "saved";
-  onClick: (id: string, type: "images" | "videos" | "saved") => void;
+  type: PostType;
+  onClick: (id: string, type: PostType) => void;
 }
 
-export const renderItemGrid = (
-  item: ItemGridType,
-  type: "images" | "videos" | "saved"
-) => {
+export const renderItemGrid = (item: ItemGridType, type: PostType) => {
   switch (type) {
     case "images":
       return (

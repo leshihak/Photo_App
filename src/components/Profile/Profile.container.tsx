@@ -8,8 +8,9 @@ import useAuth from "../../hooks/useAuth";
 import Loader from "../ui/Loader/Loader";
 import { useNavigate, useLocation } from "react-router-dom";
 import ModalSlideshow from "../ui/ModalSlideshow/ModalSlideshow";
+import { PostData, PostType } from "../../models/post.model";
 
-const data: { [key: string]: { alt?: string; id: string; url: string }[] } = {
+const data: PostData = {
   images: [
     {
       alt: "photo1",
@@ -105,9 +106,7 @@ const ProfileContainer: FC = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<
-    "images" | "videos" | "saved"
-  >("images");
+  const [selectedType, setSelectedType] = useState<PostType>("images");
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [tabValue, setTabValue] = useState(indexToTab[location.pathname] ?? 0);
@@ -137,7 +136,7 @@ const ProfileContainer: FC = () => {
     return <Loader />;
   }
 
-  const handleItemClick = (id: string, type: "images" | "videos" | "saved") => {
+  const handleItemClick = (id: string, type: PostType) => {
     navigate(`/user/${user?.uid}/${type}/${id}`);
     setOpenModal(true);
     setSelectedType(type);

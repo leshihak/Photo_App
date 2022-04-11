@@ -1,4 +1,5 @@
 import { FC, SyntheticEvent } from "react";
+import { PostData, PostType } from "../../models/post.model";
 import { TabType } from "../../models/ui.model";
 import ItemGrid from "../ui/ItemGrid/ItemGrid";
 import Tabs from "../ui/Tabs/Tabs";
@@ -7,14 +8,8 @@ interface ProfileProps {
   tabs: TabType[];
   tabValue: number;
   onTabChange: (event: SyntheticEvent, newValue: number) => void;
-  onItemClick: (id: string, type: "images" | "videos" | "saved") => void;
-  data: {
-    [key: string]: {
-      alt?: string | undefined;
-      id: string;
-      url: string;
-    }[];
-  };
+  onItemClick: (id: string, type: PostType) => void;
+  data: PostData;
 }
 
 const Profile: FC<ProfileProps> = ({
