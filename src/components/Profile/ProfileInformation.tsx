@@ -48,7 +48,7 @@ const ProfileInformation: FC = () => {
               mx: 2,
               "&:hover": { border: "1px solid #dbdbdb" },
             }}
-            onClick={() => navigate("edit")}
+            onClick={() => navigate("/accounts/edit")}
           >
             Edit Profile
           </Button>
@@ -72,6 +72,9 @@ const ProfileInformation: FC = () => {
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" mt={2}>
+          <Box display="flex">
+            <Typography fontWeight="bold">Nataliia Leshchak</Typography>
+          </Box>
           <Box display="flex">
             <Typography>🌎 Visited 18 countries</Typography>
           </Box>

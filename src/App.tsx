@@ -11,7 +11,7 @@ import ProfileContainer from "components/Profile/Profile.container";
 import ProtectedRoute from "components/ProtectedRoute/ProtectedRoute";
 import DashboardWrapper from "components/ui/DashboardWrapper/DashboardWrapper";
 import NoMatch from "components/ui/NoMatch/NoMatch";
-import EditProfile from "components/Profile/EditProfile";
+import Settings from "components/Settings/Settings";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 getApps().length === 0 ? app : getApp();
@@ -34,7 +34,7 @@ const App: FC = () => {
           />
           <Route>
             <Route path="user/:id" element={<ProfileContainer />} />
-            <Route path="user/:id/edit" element={<EditProfile />} />
+            <Route path="accounts/:setting" element={<Settings />} />
             <Route path="user/:id/:page" element={<ProfileContainer />} />
             <Route path="user/:id/:page/:id" element={<ProfileContainer />} />
             <Route path="*" element={<NoMatch />} />

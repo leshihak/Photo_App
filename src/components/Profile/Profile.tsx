@@ -25,7 +25,12 @@ const Profile: FC<ProfileProps> = ({
     <Box mb={5}>
       <ProfileInformation />
     </Box>
-    <Tabs tabs={tabs} onChange={onTabChange} value={tabValue} />
+    <Tabs
+      tabs={tabs}
+      onChange={onTabChange}
+      value={tabValue}
+      orientation="horizontal"
+    />
     {tabValue === 0 && (
       <ItemGrid items={data.images} type="images" onClick={onItemClick} />
     )}
