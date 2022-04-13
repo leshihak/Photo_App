@@ -3,6 +3,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
 
 const container = document.getElementById("root");
 
@@ -10,6 +11,7 @@ if (container) {
   const root = createRoot(container);
   root.render(
     <BrowserRouter>
+      <CssBaseline />
       <App />
     </BrowserRouter>
   );
