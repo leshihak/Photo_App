@@ -32,7 +32,7 @@ const Profile: FC<ProfileProps> = ({
       orientation="horizontal"
     />
     {tabValue === 0 && (
-      <ItemGrid items={data.images} type="images" onClick={onItemClick} />
+      <ItemGrid items={data.photos} type="photos" onClick={onItemClick} />
     )}
     {tabValue === 1 && (
       <ItemGrid items={data.videos} type="videos" onClick={onItemClick} />

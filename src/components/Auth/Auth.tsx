@@ -4,6 +4,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { setUserToDB } from "services/users.service";
 
 const Auth: FC = () => {
   const auth = getAuth();
@@ -12,7 +13,20 @@ const Auth: FC = () => {
 
   const handleSignIn = () =>
     signInWithPopup(auth, provider)
-      .then(() => navigate("/"))
+      .then((result) => {
+        const { user } = result;
+        navigate("/");
+        setUserToDB(user.uid, {
+          id: user.uid,
+          photoURL: user.photoURL,
+          name: user.displayName,
+          username: user.displayName,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          bio: null,
+          gender: null,
+        });
+      })
       .catch((error) => toast.error(error.message));
 
   return (

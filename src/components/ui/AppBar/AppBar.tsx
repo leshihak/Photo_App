@@ -39,6 +39,7 @@ import { toast } from "react-toastify";
 import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
+import { setPhotoPostToUserToDB } from "services/posts.service";
 
 const pages = [
   {
@@ -57,7 +58,6 @@ const pages = [
     icon: <AddCircleOutlineIcon />,
     activeIcon: <AddCircleIcon />,
     id: "AddCircleOutlineIcon",
-    href: "/add",
   },
   {
     icon: <ExploreOutlinedIcon />,
@@ -148,6 +148,12 @@ const AppBar: FC = () => {
       .then(() => navigate("/login"))
       .catch((error) => toast.error(error.message));
 
+  const handleAddPhotoPost = () =>
+    setPhotoPostToUserToDB(user.uid, {
+      alt: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
+      url: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
+    });
+
   return (
     <AppBarComponent
       position="fixed"
@@ -203,7 +209,11 @@ const AppBar: FC = () => {
                 <MenuItem
                   key={page.id}
                   onClick={() => {
-                    navigate(page.href);
+                    if (page.href) {
+                      navigate(page.href);
+                    } else {
+                      handleAddPhotoPost();
+                    }
                     handleCloseNavMenu();
                   }}
                 >
@@ -237,7 +247,11 @@ const AppBar: FC = () => {
                   <Link
                     key={page.id}
                     onClick={() => {
-                      navigate(page.href);
+                      if (page.href) {
+                        navigate(page.href);
+                      } else {
+                        handleAddPhotoPost();
+                      }
                       handleCloseNavMenu();
                     }}
                     sx={{
