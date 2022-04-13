@@ -9,7 +9,7 @@ const ProfileInformation: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (!user || !user.displayName || !user.photoURL) {
+  if (!user) {
     return <Loader />;
   }
 
@@ -17,8 +17,8 @@ const ProfileInformation: FC = () => {
     <Box display="flex">
       <Box display="flex" justifyContent="center" maxWidth={275} width={1}>
         <Avatar
-          alt={user.displayName}
-          src={user.photoURL}
+          alt={user.displayName!!}
+          src={user.photoURL!!}
           sx={{ width: 150, height: 150 }}
         />
       </Box>

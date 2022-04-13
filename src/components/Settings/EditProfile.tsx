@@ -22,7 +22,7 @@ const inputStyle = {
 const EditProfile: FC = () => {
   const { user } = useAuth();
 
-  if (!user || !user.displayName || !user.photoURL) {
+  if (!user) {
     return <Loader />;
   }
 
@@ -36,7 +36,7 @@ const EditProfile: FC = () => {
           mr={3}
           sx={{ cursor: "pointer" }}
         >
-          <Avatar alt={user.displayName} src={user.photoURL} />
+          <Avatar alt={user.displayName!!} src={user.photoURL!!} />
         </Box>
         <Box width={1} minWidth={220}>
           <Typography
