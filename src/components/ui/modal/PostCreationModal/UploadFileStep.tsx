@@ -27,14 +27,13 @@ const UploadFileStep: FC<UploadFileStepProps> = ({
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      minHeight="348px"
+      height="600px"
     >
       <ImagesAndVideosIcon currentColor={isDragActive ? "#0095f6" : "unset"} />
       <Typography sx={{ fontSize: 22, mt: 2 }}>
         Drag photos and videos here
       </Typography>
       <Button
-        component="label"
         variant="contained"
         sx={{
           textTransform: "none",
@@ -43,13 +42,11 @@ const UploadFileStep: FC<UploadFileStepProps> = ({
           backgroundColor: "#0095f6",
         }}
       >
-        <Box>
-          <input
-            {...getInputProps()}
-            accept="image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime"
-          />
-          Select from computer
-        </Box>
+        <input
+          {...getInputProps()}
+          accept="image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime"
+        />
+        Select from computer
       </Button>
     </Box>
   </>

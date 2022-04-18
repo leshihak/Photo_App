@@ -7,7 +7,7 @@ import PreviewFilesStep from "./PreviewFilesStep";
 
 const PostCreationModal: FC = () => {
   const [step, setStep] = useState(0);
-  const [files, setFiles] = useState<FileList | null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
 
   const onDrop = useCallback((acceptedFiles) => {
     if (!acceptedFiles) {
@@ -21,7 +21,12 @@ const PostCreationModal: FC = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <Box maxWidth="855px" minWidth="348px" minHeight="391px" maxHeight="898px">
+    <Box
+      minWidth="348px"
+      minHeight="391px"
+      maxWidth="min(calc(100vw - 372px),855px)"
+      width="650px"
+    >
       {step === 0 && (
         <UploadFileStep
           getRootProps={getRootProps}
@@ -29,7 +34,7 @@ const PostCreationModal: FC = () => {
           isDragActive={isDragActive}
         />
       )}
-      {step === 1 && <PreviewFilesStep onSetStep={setStep} />}
+      {step === 1 && <PreviewFilesStep onSetStep={setStep} files={files} />}
     </Box>
   );
 };
