@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -40,6 +40,7 @@ import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
 import { setPhotoPostToUserToDB } from "services/posts.service";
+import { ModalRootContext } from "components/ModalRoot/ModalRootContext";
 
 const pages = [
   {
@@ -117,6 +118,8 @@ const AppBar: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { setModalType } = useContext(ModalRootContext);
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -135,7 +138,7 @@ const AppBar: FC = () => {
       href: `user/${user.uid}`,
     },
     { text: "Saved", icon: <BookmarkIcon />, href: `user/${user.uid}` },
-    { text: "Settings", icon: <SettingsIcon />, href: `user/${user.uid}` },
+    { text: "Settings", icon: <SettingsIcon />, href: "/accounts/edit" },
     {
       text: "Switch Accounts",
       icon: <SwitchAccountIcon />,
@@ -148,11 +151,14 @@ const AppBar: FC = () => {
       .then(() => navigate("/login"))
       .catch((error) => toast.error(error.message));
 
-  const handleAddPhotoPost = () =>
-    setPhotoPostToUserToDB(user.uid, {
-      alt: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
-      url: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
-    });
+  const handleAddPhotoPost = () => {
+    // setPhotoPostToUserToDB(user.uid, {
+    //   alt: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
+    //   url: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
+    // });
+
+    setModalType(0);
+  };
 
   return (
     <AppBarComponent

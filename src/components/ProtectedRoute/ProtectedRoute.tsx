@@ -13,9 +13,10 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
   user,
   isLoading,
 }) => {
-  if (!user && isLoading) {
-    return <Navigate to="/login" replace />;
-  }
+  // NEED TO FIX
+  // if (!user && isLoading) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
   return children;
 };
