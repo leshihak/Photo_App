@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 const Loader = () => (
   <Box
     width={1}
-    height="100vh"
+    height={1}
     display="flex"
     justifyContent="center"
     alignItems="center"

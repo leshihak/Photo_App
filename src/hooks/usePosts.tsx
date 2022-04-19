@@ -22,10 +22,14 @@ const usePosts = () => {
       onValue(
         ref(db, `${DataBaseModel.POSTS}/${user.uid}/photos`),
         (snapshot) => {
-          const result = Object.entries(snapshot.val())?.map(([_, value]) => ({
-            ...(value as { alt: string; url: string; id: string }),
-          }));
-          setPosts({ ...posts, photos: result });
+          if (snapshot.val()) {
+            const result = Object.entries(snapshot.val())?.map(
+              ([_, value]) => ({
+                ...(value as { alt: string; url: string; id: string }),
+              })
+            );
+            setPosts({ ...posts, photos: result });
+          }
         }
       );
     }

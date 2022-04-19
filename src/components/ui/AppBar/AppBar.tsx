@@ -39,8 +39,7 @@ import { toast } from "react-toastify";
 import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
-import { setPhotoPostToUserToDB } from "services/posts.service";
-import { ModalRootContext } from "components/ModalRoot/ModalRootContext";
+import { ModalRootContext } from "components/ui/modal/ModalRoot/ModalRootContext";
 
 const pages = [
   {
@@ -151,14 +150,7 @@ const AppBar: FC = () => {
       .then(() => navigate("/login"))
       .catch((error) => toast.error(error.message));
 
-  const handleAddPhotoPost = () => {
-    // setPhotoPostToUserToDB(user.uid, {
-    //   alt: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
-    //   url: "https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg",
-    // });
-
-    setModalType(0);
-  };
+  const handleAddPhotoPost = () => setModalType(0);
 
   return (
     <AppBarComponent
