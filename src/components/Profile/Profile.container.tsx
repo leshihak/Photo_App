@@ -9,6 +9,7 @@ import { PostData, PostType } from "models/post.model";
 import { TabType } from "models/ui.model";
 import Profile from "./Profile";
 import ModalSlideshow from "components/ui/ModalSlideshow/ModalSlideshow";
+import { getKeyByValue } from "utils/helper";
 
 const data: PostData = {
   images: [
@@ -99,17 +100,13 @@ const ProfileContainer: FC = () => {
     2: `/user/${user?.uid}/saved`,
   };
 
-  const indexToTab: { [key: string]: number } = {
-    [`/user/${user?.uid}`]: 0,
-    [`/user/${user?.uid}/videos`]: 1,
-    [`/user/${user?.uid}/saved`]: 2,
-  };
-
   const [openModal, setOpenModal] = useState(false);
   const [selectedType, setSelectedType] = useState<PostType>("images");
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const [tabValue, setTabValue] = useState(indexToTab[location.pathname] ?? 0);
+  const [tabValue, setTabValue] = useState(
+    getKeyByValue(tabNameToIndex, location.pathname) ?? 0
+  );
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     navigate(tabNameToIndex[newValue]);

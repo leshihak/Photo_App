@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 
 export type TabType = {
   label: string;
-  icon: ReactElement | string;
+  icon?: ReactElement | string;
 };
 
 export type ItemGridType = {

@@ -6,7 +6,6 @@ import {
   alpha,
   Avatar,
   Box,
-  Button,
   Container,
   Divider,
   IconButton,
@@ -18,6 +17,7 @@ import {
   styled,
   Toolbar,
   Typography,
+  Link,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -30,6 +30,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ExploreIcon from "@mui/icons-material/Explore";
+import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import HomeIcon from "@mui/icons-material/Home";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
@@ -58,6 +60,12 @@ const pages = [
     href: "/add",
   },
   {
+    icon: <ExploreOutlinedIcon />,
+    activeIcon: <ExploreIcon />,
+    id: "ExploreOutlinedIcon",
+    href: "/explore",
+  },
+  {
     icon: <FavoriteBorderIcon />,
     activeIcon: <FavoriteIcon />,
     id: "FavoriteBorderIcon",
@@ -75,6 +83,7 @@ const Search = styled("div")(({ theme }) => ({
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: "100%",
+  minWidth: 268,
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),
     width: "auto",
@@ -99,9 +108,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
+    minWidth: 268,
   },
 }));
 
@@ -146,6 +153,8 @@ const AppBar: FC = () => {
       position="fixed"
       sx={{
         backgroundColor: "white",
+        borderBottom: "1px solid #dbdbdb",
+        boxShadow: "none",
       }}
     >
       <Container sx={{ "&.MuiContainer-root": { maxWidth: 975, p: 0 } }}>
@@ -154,7 +163,7 @@ const AppBar: FC = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            height: 60,
+            padding: "0 20px",
           }}
         >
           <Box
@@ -225,16 +234,22 @@ const AppBar: FC = () => {
               {pages.map((page) => {
                 const isActiveIcon = location.pathname === page.href;
                 return (
-                  <Button
+                  <Link
                     key={page.id}
                     onClick={() => {
                       navigate(page.href);
                       handleCloseNavMenu();
                     }}
-                    sx={{ my: 2, color: "black", display: "flex" }}
+                    sx={{
+                      "&:last-child": { mr: 2.5 },
+                      color: "black",
+                      display: "flex",
+                      cursor: "pointer",
+                      ml: 2.5,
+                    }}
                   >
                     {isActiveIcon ? page.activeIcon : page.icon}
-                  </Button>
+                  </Link>
                 );
               })}
             </Box>
@@ -246,7 +261,7 @@ const AppBar: FC = () => {
                 <Avatar
                   alt={user.displayName}
                   src={user.photoURL}
-                  sx={{ width: 24, height: 24 }}
+                  sx={{ width: 24, height: 24, border: "1px solid #262626" }}
                 />
               )}
             </IconButton>

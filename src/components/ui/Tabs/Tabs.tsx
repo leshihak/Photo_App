@@ -6,27 +6,32 @@ interface TabsProps {
   tabs: TabType[];
   onChange: (event: SyntheticEvent, newValue: number) => void;
   value: number;
+  orientation: "horizontal" | "vertical";
 }
 
-const Tabs: FC<TabsProps> = ({ tabs, value, onChange }) => (
+const Tabs: FC<TabsProps> = ({ tabs, value, onChange, orientation }) => (
   <TabsComponent
+    orientation={orientation}
     value={value}
     onChange={onChange}
     centered
     sx={{
       minHeight: "53px",
-      borderTop: "1px solid #dbdbdb",
+      borderTop: orientation === "vertical" ? "unset" : "1px solid #dbdbdb",
       "& .MuiTabs-indicator": {
         backgroundColor: "black",
         height: "1px",
-        top: "0px",
+        top: 0,
+        left: 0,
       },
       "& .MuiButtonBase-root.Mui-selected": {
         color: "black",
+        fontWeight: orientation === "vertical" ? 600 : 500,
       },
       button: {
-        padding: 0,
+        p: orientation === "vertical" ? 2 : 0,
         minHeight: "53px",
+        fontSize: orientation === "vertical" ? 16 : 12,
       },
       svg: {
         width: "12px",
@@ -35,13 +40,18 @@ const Tabs: FC<TabsProps> = ({ tabs, value, onChange }) => (
   >
     {tabs.map((tab) => (
       <Tab
+        disableRipple
         key={tab.label}
         label={tab.label}
         icon={tab.icon}
         iconPosition="start"
         sx={{
+          justifyContent: orientation === "vertical" ? "start" : "center",
+          textTransform: "none",
           fontSize: 12,
-          color: "#9b908e",
+          color: orientation === "vertical" ? "black" : "#9b908e",
+          fontWeight: orientation === "vertical" ? "inherit" : 500,
+          "&:active": { opacity: 0.5 },
         }}
       />
     ))}
