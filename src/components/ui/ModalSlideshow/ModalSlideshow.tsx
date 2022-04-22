@@ -40,7 +40,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
 
   useEffect(() => {
     if (rightArrowPressed && hideRightArrow) {
-      navigate(`/user/${user?.uid}/${type}/${data[type][activeIndex + 1].id}`);
+      navigate(`/user/${user?.uid}/${type}/${data[type][activeIndex + 1].uid}`);
       onActiveIndex((prev) => prev + 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,7 +48,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
 
   useEffect(() => {
     if (leftArrowPressed && activeIndex !== 0) {
-      navigate(`/user/${user?.uid}/${type}/${data[type][activeIndex - 1].id}`);
+      navigate(`/user/${user?.uid}/${type}/${data[type][activeIndex - 1].uid}`);
       onActiveIndex((prev) => prev - 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +73,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
             top="50%"
             onClick={() => {
               navigate(
-                `/user/${user?.uid}/${type}/${data[type][activeIndex - 1].id}`
+                `/user/${user?.uid}/${type}/${data[type][activeIndex - 1].uid}`
               );
               onActiveIndex((prev) => prev - 1);
             }}
@@ -101,7 +101,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
             top="50%"
             onClick={() => {
               navigate(
-                `/user/${user?.uid}/${type}/${data[type][activeIndex + 1].id}`
+                `/user/${user?.uid}/${type}/${data[type][activeIndex + 1].uid}`
               );
               onActiveIndex((prev) => prev + 1);
             }}

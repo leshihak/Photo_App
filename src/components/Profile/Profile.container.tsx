@@ -54,7 +54,7 @@ const ProfileContainer: FC = () => {
 
   useEffect(() => {
     const foundElement = posts[selectedType].find(
-      (el) => el.id === activeItemId
+      (el) => el.uid === activeItemId
     );
     if (foundElement) {
       const indexOfFoundElement = posts[selectedType].indexOf(foundElement);

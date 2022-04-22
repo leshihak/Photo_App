@@ -1,7 +1,22 @@
+export interface Comment {
+  id: string;
+  userId: string;
+  text: string;
+  isLiked: boolean;
+}
+
+export interface Post {
+  alt: string;
+  url: string;
+  uid: string;
+  comments: Comment[];
+  userIdsWhoLikedPost: [];
+}
+
 export interface PostData {
-  photos: { alt: string; url: string; id: string }[];
-  videos: { alt: string; url: string; id: string }[];
-  saved: { alt: string; url: string; id: string }[];
+  photos: Post[];
+  videos: Post[];
+  saved: Post[];
 }
 
 export type PostType = "photos" | "saved" | "videos";

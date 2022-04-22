@@ -53,9 +53,7 @@ const ModalRoot: FC = () => {
             sx={{ color: "white", width: 40, height: 40, cursor: "pointer" }}
           />
         </Box>
-        <Box sx={style}>
-          <SpecificModal />
-        </Box>
+        <Box sx={style}>{SpecificModal ? <SpecificModal /> : null}</Box>
       </>
     </Modal>
   );

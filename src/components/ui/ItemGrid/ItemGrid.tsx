@@ -3,16 +3,15 @@ import { FC } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import ReactPlayer from "react-player/youtube";
-import { PostType } from "models/post.model";
-import { ItemGridType } from "models/ui.model";
+import { Post, PostType } from "models/post.model";
 
 interface ItemGridProps {
-  items: ItemGridType[];
+  items: Post[];
   type: PostType;
   onClick: (id: string, type: PostType) => void;
 }
 
-export const renderItemGrid = (item: ItemGridType, type: PostType) => {
+export const renderItemGrid = (item: Post, type: PostType) => {
   switch (type) {
     case "photos":
       return (
@@ -50,7 +49,7 @@ const ItemGrid: FC<ItemGridProps> = ({ items, type, onClick }) => (
   <Box display="flex" flexWrap="wrap" justifyContent="space-between">
     {items.map((item) => (
       <Box
-        key={item.id}
+        key={item.uid}
         mb={4}
         sx={{
           objectFit: "cover",
@@ -62,7 +61,7 @@ const ItemGrid: FC<ItemGridProps> = ({ items, type, onClick }) => (
             cursor: "pointer",
           },
         }}
-        onClick={() => onClick(item.id, type)}
+        onClick={() => onClick(item.uid, type)}
       >
         {renderItemGrid(item, type)}
         <Box
@@ -76,18 +75,20 @@ const ItemGrid: FC<ItemGridProps> = ({ items, type, onClick }) => (
           height={1}
           sx={{ backgroundColor: "rgb(58 58 58 / 59%)" }}
         >
+          {item.userIdsWhoLikedPost !== undefined && (
+            <Box display="flex" alignItems="center" mr={3}>
+              <FavoriteIcon sx={{ color: "white", mr: 0.5 }} />
+              <Typography
+                align="center"
+                variant="body2"
+                fontWeight="bold"
+                sx={{ color: "white" }}
+              >
+                {Object.keys(item.userIdsWhoLikedPost).length}
+              </Typography>
+            </Box>
+          )}
           <Box display="flex" alignItems="center">
-            <FavoriteIcon sx={{ color: "white", mr: 0.5 }} />
-            <Typography
-              align="center"
-              variant="body2"
-              fontWeight="bold"
-              sx={{ color: "white" }}
-            >
-              19
-            </Typography>
-          </Box>
-          <Box display="flex" alignItems="center" ml={3}>
             <ChatBubbleIcon sx={{ color: "white", mr: 0.5 }} />
             <Typography
               align="center"
@@ -95,7 +96,7 @@ const ItemGrid: FC<ItemGridProps> = ({ items, type, onClick }) => (
               fontWeight="bold"
               sx={{ color: "white" }}
             >
-              0
+              {item.comments ? item.comments.length : 0}
             </Typography>
           </Box>
         </Box>
