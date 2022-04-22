@@ -10,6 +10,7 @@ import { TabType } from "models/ui.model";
 import Profile from "./Profile";
 import ModalSlideshow from "components/ui/ModalSlideshow/ModalSlideshow";
 import usePosts from "hooks/usePosts";
+import { getKeyByValue } from "utils/helper";
 
 const TABS: TabType[] = [
   {
