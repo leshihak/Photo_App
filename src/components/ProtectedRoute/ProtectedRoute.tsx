@@ -1,6 +1,6 @@
 import { User } from "firebase/auth";
 import { FC } from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   user: User | null;
@@ -13,9 +13,10 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
   user,
   isLoading,
 }) => {
-  if (!user && isLoading) {
-    return <Navigate to="/login" replace />;
-  }
+  // NEED TO FIX
+  // if (!user && isLoading) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
   return children;
 };

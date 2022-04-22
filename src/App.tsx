@@ -1,5 +1,5 @@
 import { getApp, getApps } from "firebase/app";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { app } from "./config/firebase";
 import useAuth from "./hooks/useAuth";
@@ -12,6 +12,9 @@ import ProtectedRoute from "components/ProtectedRoute/ProtectedRoute";
 import DashboardWrapper from "components/ui/DashboardWrapper/DashboardWrapper";
 import NoMatch from "components/ui/NoMatch/NoMatch";
 import Settings from "components/Settings/Settings";
+import ModalRoot from "components/ui/modal/ModalRoot/ModalRoot";
+import { ModalRootContext } from "components/ui/modal/ModalRoot/ModalRootContext";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 getApps().length === 0 ? app : getApp();
@@ -19,8 +22,15 @@ getApps().length === 0 ? app : getApp();
 const App: FC = () => {
   const { user, isLoading } = useAuth();
 
+  const [modalType, setModalType] = useState<number | null>(null);
+
+  const contextValue = {
+    modalType,
+    setModalType,
+  };
+
   return (
-    <>
+    <ModalRootContext.Provider value={contextValue}>
       <Routes>
         <Route path="/login" element={<Auth />} />
         <Route element={<DashboardWrapper />}>
@@ -42,8 +52,9 @@ const App: FC = () => {
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
+      <ModalRoot />
       <ToastContainer />
-    </>
+    </ModalRootContext.Provider>
   );
 };
 

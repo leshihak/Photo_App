@@ -7,7 +7,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import Post from "../Post/Post";
 import useAuth from "hooks/useAuth";
 import useKeyPress from "hooks/useKeyPress";
-import { PostData } from "models/post.model";
+import { PostData, PostType } from "models/post.model";
 
 interface ModalSlideshowProps {
   activeIndex: number;
@@ -15,7 +15,7 @@ interface ModalSlideshowProps {
   openModal: boolean;
   onOpenModal: Dispatch<SetStateAction<boolean>>;
   onActiveIndex: Dispatch<SetStateAction<number>>;
-  type: "images" | "videos" | "saved"; // NEED TO ADD TYPE
+  type: PostType;
 }
 
 const ModalSlideshow: FC<ModalSlideshowProps> = ({
@@ -34,7 +34,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
   const hideRightArrow = activeIndex !== data[type].length - 1;
 
   const handleCloseModal = () => {
-    navigate(`/user/${user?.uid}${type === "images" ? "" : `/${type}`}`);
+    navigate(`/user/${user?.uid}${type === "photos" ? "" : `/${type}`}`);
     onOpenModal(false);
   };
 

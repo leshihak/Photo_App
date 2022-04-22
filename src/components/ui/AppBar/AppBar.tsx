@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -39,6 +39,7 @@ import { toast } from "react-toastify";
 import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
+import { ModalRootContext } from "components/ui/modal/ModalRoot/ModalRootContext";
 
 const pages = [
   {
@@ -57,7 +58,6 @@ const pages = [
     icon: <AddCircleOutlineIcon />,
     activeIcon: <AddCircleIcon />,
     id: "AddCircleOutlineIcon",
-    href: "/add",
   },
   {
     icon: <ExploreOutlinedIcon />,
@@ -117,6 +117,8 @@ const AppBar: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { setModalType } = useContext(ModalRootContext);
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -135,7 +137,7 @@ const AppBar: FC = () => {
       href: `user/${user.uid}`,
     },
     { text: "Saved", icon: <BookmarkIcon />, href: `user/${user.uid}` },
-    { text: "Settings", icon: <SettingsIcon />, href: `user/${user.uid}` },
+    { text: "Settings", icon: <SettingsIcon />, href: "/accounts/edit" },
     {
       text: "Switch Accounts",
       icon: <SwitchAccountIcon />,
@@ -147,6 +149,8 @@ const AppBar: FC = () => {
     signOut(auth)
       .then(() => navigate("/login"))
       .catch((error) => toast.error(error.message));
+
+  const handleAddPhotoPost = () => setModalType(0);
 
   return (
     <AppBarComponent
@@ -203,7 +207,11 @@ const AppBar: FC = () => {
                 <MenuItem
                   key={page.id}
                   onClick={() => {
-                    navigate(page.href);
+                    if (page.href) {
+                      navigate(page.href);
+                    } else {
+                      handleAddPhotoPost();
+                    }
                     handleCloseNavMenu();
                   }}
                 >
@@ -237,7 +245,11 @@ const AppBar: FC = () => {
                   <Link
                     key={page.id}
                     onClick={() => {
-                      navigate(page.href);
+                      if (page.href) {
+                        navigate(page.href);
+                      } else {
+                        handleAddPhotoPost();
+                      }
                       handleCloseNavMenu();
                     }}
                     sx={{

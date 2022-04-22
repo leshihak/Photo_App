@@ -1,9 +1,7 @@
 export interface PostData {
-  [key: string]: {
-    alt?: string;
-    id: string;
-    url: string;
-  }[];
+  photos: { alt: string; url: string; id: string }[];
+  videos: { alt: string; url: string; id: string }[];
+  saved: { alt: string; url: string; id: string }[];
 }
 
-export type PostType = "images" | "saved" | "videos";
+export type PostType = "photos" | "saved" | "videos";

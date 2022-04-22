@@ -14,7 +14,7 @@ interface ItemGridProps {
 
 export const renderItemGrid = (item: ItemGridType, type: PostType) => {
   switch (type) {
-    case "images":
+    case "photos":
       return (
         <img
           alt={item.alt}
