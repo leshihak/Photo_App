@@ -7,8 +7,9 @@ import {
   Button,
 } from "@mui/material";
 import { User } from "firebase/auth";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
@@ -16,6 +17,11 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import { PostData, PostType } from "models/post.model";
 import { renderItemGrid } from "../ItemGrid/ItemGrid";
 import Loader from "../Loader/Loader";
+import { toggleLikeToPost } from "services/posts.service";
+import { db } from "config/firebase";
+import { onValue } from "firebase/database";
+import { DataBaseModel } from "models/service.model";
+import { ref } from "firebase/database";
 
 interface PostProps {
   user: User | null;
@@ -29,10 +35,24 @@ const iconStyle = {
   cursor: "pointer",
   "&:hover": { color: "#c6c6c6" },
 };
+
 const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
   const [commentValue, setCommentValue] = useState("");
+  const [isLiked, setIsLiked] = useState(false);
 
-  if (!user?.displayName || !user?.photoURL) {
+  const post = data[type][activeIndex];
+
+  useEffect(() => {
+    onValue(
+      ref(
+        db,
+        `${DataBaseModel.POSTS}/${user?.uid}/photos/${post.uid}/userIdsWhoLikedPost/${user?.uid}`
+      ),
+      (snapshot) => setIsLiked(Boolean(snapshot.val()))
+    );
+  }, [post.uid, user]);
+
+  if (!user) {
     return <Loader />;
   }
 
@@ -57,7 +77,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
           position: "relative",
         }}
       >
-        {renderItemGrid(data[type][activeIndex], type)}
+        {renderItemGrid(post, type)}
       </Grid>
       <Grid item md={5} borderLeft="1px solid #efefef">
         <Box
@@ -73,8 +93,8 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
             borderBottom="1px solid #efefef"
           >
             <Avatar
-              alt={user?.displayName}
-              src={user?.photoURL}
+              alt={user.displayName!!}
+              src={user.photoURL!!}
               sx={{ width: 32, height: 32 }}
             />
             <Box ml={2}>
@@ -86,74 +106,101 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
               </Typography>
             </Box>
           </Box>
-          <Box p={2} height={200}>
-            comments
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            px={1}
-            borderTop="1px solid #efefef"
-          >
-            <Box>
-              <FavoriteBorderIcon sx={iconStyle} />
-              <ChatBubbleOutlineIcon sx={iconStyle} />
-              <SendOutlinedIcon sx={iconStyle} />
+          {post.comments && (
+            <Box p={2} height={200}>
+              {post.comments.map((comment) => (
+                <>{comment}</>
+              ))}
             </Box>
-            <Box>
-              <BookmarkBorderOutlinedIcon sx={iconStyle} />
+          )}
+          <Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              px={1}
+              borderTop="1px solid #efefef"
+            >
+              <Box>
+                <span
+                  onClick={() => toggleLikeToPost(user.uid, post.uid, isLiked)}
+                >
+                  {isLiked ? (
+                    <FavoriteIcon
+                      sx={{ m: 1, cursor: "pointer", color: "red" }}
+                    />
+                  ) : (
+                    <FavoriteBorderIcon sx={iconStyle} />
+                  )}
+                </span>
+                <ChatBubbleOutlineIcon sx={iconStyle} />
+                <SendOutlinedIcon sx={iconStyle} />
+              </Box>
+              <Box>
+                <BookmarkBorderOutlinedIcon sx={iconStyle} />
+              </Box>
             </Box>
-          </Box>
-          <Box px={2}>
-            <Typography variant="body2">
-              Liked by oliynyk.vitaliy and 18 others
-            </Typography>
-          </Box>
-          <Box p={2} borderBottom="1px solid #efefef">
-            <Typography
-              variant="caption"
-              sx={{
-                fontSize: 10,
-                color: "#8e8e8e",
-                textTransform: "uppercase",
-              }}
+            <Box px={2}>
+              <Typography variant="body2">
+                {post.userIdsWhoLikedPost === undefined ? (
+                  <>
+                    Be the first to
+                    <span style={{ fontWeight: "bold" }}>&nbsp;like this</span>
+                  </>
+                ) : (
+                  <span style={{ fontWeight: "bold" }}>
+                    {Object.keys(post.userIdsWhoLikedPost).length}&nbsp;like
+                  </span>
+                )}
+              </Typography>
+            </Box>
+            <Box px={2} pt={1}>
+              <Typography
+                variant="caption"
+                sx={{
+                  fontSize: 10,
+                  color: "#8e8e8e",
+                  textTransform: "uppercase",
+                }}
+              >
+                JANUARY 20
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              borderTop="1px solid #efefef"
+              p={2}
+              mt={2}
+              height={53}
             >
-              JANUARY 20
-            </Typography>
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            justifyContent="space-between"
-            p={2}
-            height={53}
-          >
-            <EmojiEmotionsOutlinedIcon />
-            <TextField
-              fullWidth
-              sx={{
-                ml: 2,
-                "& .MuiOutlinedInput-root": {
-                  p: 0,
-                  border: "none",
-                  "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                },
-              }}
-              value={commentValue}
-              onChange={(event) => setCommentValue(event.target.value)}
-              multiline
-              placeholder="Add a comment..."
-              maxRows={4}
-            />
-            <Button
-              type="submit"
-              variant="text"
-              color="primary"
-              disabled={commentValue.trim().length === 0}
-            >
-              Post
-            </Button>
+              <EmojiEmotionsOutlinedIcon />
+              <TextField
+                fullWidth
+                sx={{
+                  ml: 2,
+                  "& .MuiOutlinedInput-root": {
+                    p: 0,
+                    border: "none",
+                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                  },
+                }}
+                value={commentValue}
+                onChange={(event) => setCommentValue(event.target.value)}
+                multiline
+                placeholder="Add a comment..."
+                maxRows={4}
+              />
+              <Button
+                type="submit"
+                variant="text"
+                color="primary"
+                disabled={commentValue.trim().length === 0}
+              >
+                Post
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Grid>
