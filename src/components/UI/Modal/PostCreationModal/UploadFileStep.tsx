@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
-import ImagesAndVideosIcon from "components/ui/Icons/ImagesAndVideosIcon";
+import ImagesAndVideosIcon from "components/UI/Icons/ImagesAndVideosIcon";
 import { FC } from "react";
 import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone";
 

@@ -1,6 +1,6 @@
 import { Avatar, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Loader from "components/ui/Loader/Loader";
+import Loader from "components/UI/Loader/Loader";
 import useAuth from "hooks/useAuth";
 import { FC } from "react";
 

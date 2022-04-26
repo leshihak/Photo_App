@@ -4,11 +4,11 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "hooks/useAuth";
-import Loader from "components/ui/Loader/Loader";
+import Loader from "components/UI/Loader/Loader";
 import { PostType } from "models/post.model";
 import { TabType } from "models/ui.model";
 import Profile from "./Profile";
-import ModalSlideshow from "components/ui/ModalSlideshow/ModalSlideshow";
+import ModalSlideshow from "components/UI/ModalSlideshow/ModalSlideshow";
 import usePosts from "hooks/usePosts";
 import { getKeyByValue } from "utils/helper";
 
@@ -31,7 +31,7 @@ const ProfileContainer: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const posts = usePosts();
+  const { posts } = usePosts();
 
   const tabNameToIndex: { [key: number]: string } = {
     0: `/user/${user?.uid}`,

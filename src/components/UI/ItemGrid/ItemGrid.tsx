@@ -16,6 +16,7 @@ export const renderItemGrid = (item: Post, type: PostType) => {
     case "photos":
       return (
         <img
+          loading="lazy"
           alt={item.alt}
           src={item.url}
           style={{
@@ -30,6 +31,7 @@ export const renderItemGrid = (item: Post, type: PostType) => {
     case "saved":
       return (
         <img
+          loading="lazy"
           alt={item.alt}
           src={item.url}
           style={{

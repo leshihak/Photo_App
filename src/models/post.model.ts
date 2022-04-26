@@ -11,6 +11,7 @@ export interface Post {
   uid: string;
   comments: Comment[];
   userIdsWhoLikedPost: [];
+  createdAt: number;
 }
 
 export interface PostData {

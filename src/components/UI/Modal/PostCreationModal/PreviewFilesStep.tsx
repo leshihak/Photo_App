@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { Dispatch, FC, SetStateAction } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Carousel from "components/ui/Carousel/Carousel";
+import Carousel from "components/UI/Carousel/Carousel";
 
 interface PreviewFilesStepProps {
   onSetStep: Dispatch<SetStateAction<number>>;

@@ -1,9 +1,10 @@
 import { Box, Modal } from "@mui/material";
-import PostCreationModal from "components/ui/modal/PostCreationModal/PostCreationModal";
+import PostCreationModal from "components/UI/Modal/PostCreationModal/PostCreationModal";
 import { FC, useContext, useEffect, useState } from "react";
 import { ModalTypes } from "static/constants";
 import { ModalRootContext } from "./ModalRootContext";
 import CloseIcon from "@mui/icons-material/Close";
+import PostUsersLikeModal from "../PostUsersLikeModal/PostUsersLikeModal";
 
 const style = {
   position: "absolute",
@@ -17,6 +18,7 @@ const style = {
 
 const MODAL_COMPONENTS: { [key: number]: FC } = {
   [ModalTypes.POST_CREATION_MODAL]: PostCreationModal,
+  [ModalTypes.POST_USERS_LIKE_MODAL]: PostUsersLikeModal,
 };
 
 const ModalRoot: FC = () => {

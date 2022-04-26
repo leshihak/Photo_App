@@ -4,6 +4,7 @@ import { DataBaseModel } from "models/service.model";
 import { db, storage } from "./../config/firebase";
 import { toast } from "react-toastify";
 import { Dispatch, SetStateAction } from "react";
+import { getTime } from "date-fns";
 
 export const setPhotoPostToUserToDB = (
   userId: string | undefined,
@@ -25,6 +26,7 @@ export const setPhotoPostToUserToDB = (
             url,
             comments: [],
             userIdsWhoLikedPost: [],
+            createdAt: getTime(new Date()),
           });
           return url;
         });

@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import { User } from "firebase/auth";
-import Carousel from "components/ui/Carousel/Carousel";
+import Carousel from "components/UI/Carousel/Carousel";
 import MoodIcon from "@mui/icons-material/Mood";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 

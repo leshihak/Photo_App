@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { User } from "firebase/auth";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -22,6 +22,8 @@ import { db } from "config/firebase";
 import { onValue } from "firebase/database";
 import { DataBaseModel } from "models/service.model";
 import { ref } from "firebase/database";
+import { format } from "date-fns";
+import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
 
 interface PostProps {
   user: User | null;
@@ -39,6 +41,7 @@ const iconStyle = {
 const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
   const [commentValue, setCommentValue] = useState("");
   const [isLiked, setIsLiked] = useState(false);
+  const { setModalType, setSelectedPost } = useContext(ModalRootContext);
 
   const post = data[type][activeIndex];
 
@@ -145,10 +148,23 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                 {post.userIdsWhoLikedPost === undefined ? (
                   <>
                     Be the first to
-                    <span style={{ fontWeight: "bold" }}>&nbsp;like this</span>
+                    <span
+                      style={{ fontWeight: "bold", cursor: "pointer" }}
+                      onClick={() =>
+                        toggleLikeToPost(user.uid, post.uid, isLiked)
+                      }
+                    >
+                      &nbsp;like this
+                    </span>
                   </>
                 ) : (
-                  <span style={{ fontWeight: "bold" }}>
+                  <span
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      setModalType(1);
+                    }}
+                  >
                     {Object.keys(post.userIdsWhoLikedPost).length}&nbsp;like
                   </span>
                 )}
@@ -163,7 +179,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                   textTransform: "uppercase",
                 }}
               >
-                JANUARY 20
+                {format(new Date(post.createdAt), "LLLL d")}
               </Typography>
             </Box>
             <Box

@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import GoogleLogo from "components/ui/Icons/GoogleLogo";
+import GoogleLogo from "components/UI/Icons/GoogleLogo";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";

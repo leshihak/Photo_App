@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import Loader from "components/ui/Loader/Loader";
+import Loader from "components/UI/Loader/Loader";
 import useAuth from "hooks/useAuth";
 import { FC } from "react";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
