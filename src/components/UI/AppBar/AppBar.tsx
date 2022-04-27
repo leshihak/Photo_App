@@ -40,7 +40,6 @@ import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
 import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
-import usePosts from "hooks/usePosts";
 
 const pages = [
   {
@@ -119,7 +118,6 @@ const AppBar: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setModalType } = useContext(ModalRootContext);
-  const { isLoadingPosts } = usePosts();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -128,7 +126,7 @@ const AppBar: FC = () => {
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  if (!user || (!user && isLoadingPosts)) {
+  if (!user) {
     return <Loader />;
   }
 

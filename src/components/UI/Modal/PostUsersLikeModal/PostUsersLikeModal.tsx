@@ -11,7 +11,10 @@ const PostUsersLikeModal: FC = () => {
   const { user } = useAuth();
   const { selectedPost } = useContext(ModalRootContext);
 
-  const [users, setUsers] = useState<UserType[] | null>(null);
+  const [usersState, setUsersState] = useState<{
+    users: UserType[];
+    isLoading: boolean;
+  }>({ users: [], isLoading: true });
 
   useEffect(() => {
     onValue(
@@ -20,13 +23,16 @@ const PostUsersLikeModal: FC = () => {
         `${DataBaseModel.POSTS}/${user?.uid}/photos/${selectedPost?.uid}/userIdsWhoLikedPost`
       ),
       (snapshot) => {
-        const users: UserType[] = [];
-        Object.keys(snapshot.val()!!).forEach((key) =>
-          onValue(ref(db, `${DataBaseModel.USERS}/${key}`), (snapshot) =>
-            users.push(snapshot.val())
-          )
-        );
-        setUsers(users);
+        if (snapshot.val()) {
+          Object.keys(snapshot.val()!!).forEach((key) =>
+            onValue(ref(db, `${DataBaseModel.USERS}/${key}`), (snapshot) =>
+              setUsersState((prevState) => ({
+                isLoading: false,
+                users: [...prevState.users, snapshot.val()],
+              }))
+            )
+          );
+        }
       }
     );
   }, [selectedPost?.uid, user]);
@@ -39,23 +45,56 @@ const PostUsersLikeModal: FC = () => {
         </Typography>
       </Box>
       <Box height="364px" overflow="hidden auto">
-        {users?.map((user) => (
-          <Box display="flex" alignItems="center" px={2} py={1} key={user.id}>
-            <Avatar
-              alt={user.name!!}
-              src={user.photoURL!!}
-              sx={{ width: 44, height: 44 }}
-            />
-            <Box ml={2}>
-              <Typography variant="body2" fontWeight="bold">
-                {user.name}
-              </Typography>
-              <Typography variant="caption" sx={{ color: "#8e8e8e" }}>
-                {user.username}
-              </Typography>
-            </Box>
-          </Box>
-        ))}
+        {usersState.isLoading
+          ? Array(4)
+              .fill(1)
+              .map((_, index) => (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  px={2}
+                  py={1}
+                  key={index}
+                >
+                  <Avatar
+                    alt={undefined}
+                    src={undefined}
+                    sx={{ width: 44, height: 44 }}
+                  />
+                  <Box ml={2}>
+                    <Box height="14px" width="100px" bgcolor="lightgray" />
+                    <Box
+                      height="14px"
+                      width="100px"
+                      bgcolor="lightgray"
+                      mt={1}
+                    />
+                  </Box>
+                </Box>
+              ))
+          : usersState.users.map((user) => (
+              <Box
+                display="flex"
+                alignItems="center"
+                px={2}
+                py={1}
+                key={user.id}
+              >
+                <Avatar
+                  alt={user.name!!}
+                  src={user.photoURL!!}
+                  sx={{ width: 44, height: 44 }}
+                />
+                <Box ml={2}>
+                  <Typography variant="body2" fontWeight="bold">
+                    {user.name}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: "#8e8e8e" }}>
+                    {user.username}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
       </Box>
     </Box>
   );

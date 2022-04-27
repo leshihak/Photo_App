@@ -21,3 +21,10 @@ export interface PostData {
 }
 
 export type PostType = "photos" | "saved" | "videos";
+
+export interface Comment {
+  createdAt: number;
+  text: string;
+  userId: string;
+  uid: string;
+}

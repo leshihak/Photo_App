@@ -47,3 +47,20 @@ export const toggleLikeToPost = (
 
   isLiked ? remove(ref) : set(ref, userId);
 };
+
+export const setCommentToPost = (
+  userId: string,
+  postId: string,
+  comment: string
+) => {
+  const ref = reference(
+    db,
+    `${DataBaseModel.POSTS}/${userId}/photos/${postId}/comments`
+  );
+
+  push(ref, {
+    createdAt: getTime(new Date()),
+    text: comment,
+    userId,
+  });
+};
