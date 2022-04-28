@@ -19,7 +19,7 @@ const usePosts = (): UsePosts => {
 
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
   const [posts, setPosts] = useState<PostData>({
-    photos: [],
+    images: [],
     videos: [],
     saved: [],
   });
@@ -28,7 +28,7 @@ const usePosts = (): UsePosts => {
     if (user) {
       setIsLoadingPosts(true);
       onValue(
-        ref(db, `${DataBaseModel.POSTS}/${user.uid}/photos`),
+        ref(db, `${DataBaseModel.POSTS}/${user.uid}/images`),
         (snapshot) => {
           if (snapshot.val()) {
             const result = Object.entries(snapshot.val())?.map(
@@ -45,7 +45,29 @@ const usePosts = (): UsePosts => {
               }
             );
             setIsLoadingPosts(false);
-            setPosts({ ...posts, photos: result });
+            setPosts({ ...posts, images: result });
+          }
+        }
+      );
+      onValue(
+        ref(db, `${DataBaseModel.POSTS}/${user.uid}/videos`),
+        (snapshot) => {
+          if (snapshot.val()) {
+            const result = Object.entries(snapshot.val())?.map(
+              ([key, value]) => {
+                const newUrl = (value as Post).url.replace(
+                  FIREBASE_URL,
+                  IMAGE_KIT_URL
+                );
+                return {
+                  ...(value as Post),
+                  url: newUrl,
+                  uid: key,
+                };
+              }
+            );
+            setIsLoadingPosts(false);
+            setPosts({ ...posts, videos: result });
           }
         }
       );

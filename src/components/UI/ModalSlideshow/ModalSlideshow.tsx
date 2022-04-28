@@ -8,6 +8,7 @@ import Post from "../Post/Post";
 import useAuth from "hooks/useAuth";
 import useKeyPress from "hooks/useKeyPress";
 import { PostData, PostType } from "models/post.model";
+import { FileTypes } from "static/constants";
 
 interface ModalSlideshowProps {
   activeIndex: number;
@@ -34,7 +35,9 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
   const hideRightArrow = activeIndex !== data[type].length - 1;
 
   const handleCloseModal = () => {
-    navigate(`/user/${user?.uid}${type === "photos" ? "" : `/${type}`}`);
+    navigate(
+      `/user/${user?.uid}${type === FileTypes.IMAGES ? "" : `/${type}`}`
+    );
     onOpenModal(false);
   };
 

@@ -12,6 +12,7 @@ import { User } from "firebase/auth";
 import Carousel from "components/UI/Carousel/Carousel";
 import MoodIcon from "@mui/icons-material/Mood";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import { PostType } from "models/post.model";
 
 interface CreatePostStepProps {
   onSetStep: Dispatch<SetStateAction<number>>;
@@ -19,6 +20,7 @@ interface CreatePostStepProps {
     id: string;
     alt: string;
     url: string;
+    type: PostType;
   }[];
   user: User | null;
   onCreatePost: () => void;
@@ -66,7 +68,7 @@ const CreatePostStep: FC<CreatePostStepProps> = ({
       <Grid
         container
         position="absolute"
-        top="50%"
+        top="43%"
         left="50%"
         bgcolor="common.white"
         sx={{ transform: "translate(-50%, -50%)" }}

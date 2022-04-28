@@ -2,8 +2,8 @@ import { Box, Typography } from "@mui/material";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import ReactPlayer from "react-player/youtube";
 import { Post, PostType } from "models/post.model";
+import { FileTypes } from "static/constants";
 
 interface ItemGridProps {
   items: Post[];
@@ -17,7 +17,7 @@ export const renderItemGrid = (
   setIsLoading?: Dispatch<SetStateAction<boolean>>
 ) => {
   switch (type) {
-    case "photos":
+    case FileTypes.IMAGES:
       return (
         <img
           loading="lazy"
@@ -31,9 +31,10 @@ export const renderItemGrid = (
           onLoad={() => setIsLoading && setIsLoading(false)}
         />
       );
-    case "videos":
-      return <ReactPlayer url={item.url} width="100%" height="100%" />;
-    case "saved":
+    case FileTypes.VIDEOS:
+      setIsLoading && setIsLoading(false);
+      return <video controls autoPlay src={item.url} />;
+    case FileTypes.SAVED:
       return (
         <img
           loading="lazy"

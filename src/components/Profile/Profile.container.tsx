@@ -11,6 +11,7 @@ import Profile from "./Profile";
 import ModalSlideshow from "components/UI/ModalSlideshow/ModalSlideshow";
 import usePosts from "hooks/usePosts";
 import { getKeyByValue } from "utils/helper";
+import { FileTypes } from "static/constants";
 
 const TABS: TabType[] = [
   {
@@ -40,7 +41,7 @@ const ProfileContainer: FC = () => {
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<PostType>("photos");
+  const [selectedType, setSelectedType] = useState<PostType>(FileTypes.IMAGES);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [tabValue, setTabValue] = useState(

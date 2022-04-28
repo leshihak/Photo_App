@@ -15,16 +15,23 @@ export interface Post {
 }
 
 export interface PostData {
-  photos: Post[];
+  images: Post[];
   videos: Post[];
   saved: Post[];
 }
 
-export type PostType = "photos" | "saved" | "videos";
+export type PostType = "images" | "saved" | "videos";
 
 export interface Comment {
   createdAt: number;
   text: string;
   userId: string;
   uid: string;
+}
+
+export interface FileItem {
+  id: string;
+  alt: string;
+  url: string;
+  type: PostType;
 }
