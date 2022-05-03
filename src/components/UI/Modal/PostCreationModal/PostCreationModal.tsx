@@ -33,7 +33,7 @@ const PostCreationModal: FC = () => {
     alt: file.name,
     url: URL.createObjectURL(file),
     type: FILE_TYPES.image.includes(file.type)
-      ? FileTypes.IMAGES
+      ? FileTypes.PHOTOS
       : FileTypes.VIDEOS,
   }))!!;
 

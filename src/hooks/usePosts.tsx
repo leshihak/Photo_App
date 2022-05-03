@@ -19,7 +19,7 @@ const usePosts = (): UsePosts => {
 
   const [isLoadingPosts, setIsLoadingPosts] = useState(false);
   const [posts, setPosts] = useState<PostData>({
-    images: [],
+    photos: [],
     videos: [],
     saved: [],
   });
@@ -28,7 +28,7 @@ const usePosts = (): UsePosts => {
     if (user) {
       setIsLoadingPosts(true);
       onValue(
-        ref(db, `${DataBaseModel.POSTS}/${user.uid}/images`),
+        ref(db, `${DataBaseModel.POSTS}/${user.uid}/photos`),
         (snapshot) => {
           if (snapshot.val()) {
             const result = Object.entries(snapshot.val())?.map(
@@ -45,7 +45,7 @@ const usePosts = (): UsePosts => {
               }
             );
             setIsLoadingPosts(false);
-            setPosts({ ...posts, images: result });
+            setPosts({ ...posts, photos: result });
           }
         }
       );

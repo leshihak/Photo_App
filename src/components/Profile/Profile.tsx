@@ -34,8 +34,8 @@ const Profile: FC<ProfileProps> = ({
     />
     {tabValue === 0 && (
       <ItemGrid
-        items={data.images}
-        type={FileTypes.IMAGES}
+        items={data.photos}
+        type={FileTypes.PHOTOS}
         onClick={onItemClick}
       />
     )}

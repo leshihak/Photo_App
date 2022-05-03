@@ -36,7 +36,7 @@ const ModalSlideshow: FC<ModalSlideshowProps> = ({
 
   const handleCloseModal = () => {
     navigate(
-      `/user/${user?.uid}${type === FileTypes.IMAGES ? "" : `/${type}`}`
+      `/user/${user?.uid}${type === FileTypes.PHOTOS ? "" : `/${type}`}`
     );
     onOpenModal(false);
   };

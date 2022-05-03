@@ -40,6 +40,7 @@ import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
 import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
+import useCurrentUser from "hooks/useCurrentUser";
 
 const pages = [
   {
@@ -114,7 +115,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const AppBar: FC = () => {
   const auth = getAuth();
-  const { user } = useAuth();
+  const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const location = useLocation();
   const { setModalType } = useContext(ModalRootContext);
@@ -126,7 +127,7 @@ const AppBar: FC = () => {
 
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  if (!user) {
+  if (!currentUser) {
     return <Loader />;
   }
 
@@ -134,14 +135,14 @@ const AppBar: FC = () => {
     {
       text: "Profile",
       icon: <AccountCircleIcon />,
-      href: `user/${user.uid}`,
+      href: `user/${currentUser.uid}`,
     },
-    { text: "Saved", icon: <BookmarkIcon />, href: `user/${user.uid}` },
+    { text: "Saved", icon: <BookmarkIcon />, href: `user/${currentUser.uid}` },
     { text: "Settings", icon: <SettingsIcon />, href: "/accounts/edit" },
     {
       text: "Switch Accounts",
       icon: <SwitchAccountIcon />,
-      href: `user/${user.uid}`,
+      href: `user/${currentUser.uid}`,
     },
   ];
 
@@ -269,13 +270,11 @@ const AppBar: FC = () => {
               onClick={(event) => setAnchorElUser(event.currentTarget)}
               sx={{ p: 0 }}
             >
-              {user.displayName && user.photoURL && (
-                <Avatar
-                  alt={user.displayName}
-                  src={user.photoURL}
-                  sx={{ width: 24, height: 24, border: "1px solid #262626" }}
-                />
-              )}
+              <Avatar
+                alt={currentUser.name!!}
+                src={currentUser.photoURL!!}
+                sx={{ width: 24, height: 24, border: "1px solid #262626" }}
+              />
             </IconButton>
             <Menu
               sx={{ mt: "45px" }}

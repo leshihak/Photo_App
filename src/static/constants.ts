@@ -1,6 +1,7 @@
 export enum ModalTypes {
   POST_CREATION_MODAL,
   POST_USERS_LIKE_MODAL,
+  CHANGE_PROFILE_PHOTO_MODAL,
 }
 
 export const FILE_TYPES = {
@@ -9,7 +10,7 @@ export const FILE_TYPES = {
 };
 
 export enum FileTypes {
-  IMAGES = "images",
+  PHOTOS = "photos",
   VIDEOS = "videos",
   SAVED = "saved",
 }

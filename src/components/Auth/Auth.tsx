@@ -17,7 +17,7 @@ const Auth: FC = () => {
         const { user } = result;
         navigate("/");
         setUserToDB(user.uid, {
-          id: user.uid,
+          uid: user.uid,
           photoURL: user.photoURL,
           name: user.displayName,
           username: user.displayName,
@@ -25,6 +25,7 @@ const Auth: FC = () => {
           phoneNumber: user.phoneNumber,
           bio: null,
           gender: null,
+          website: null,
         });
       })
       .catch((error) => toast.error(error.message));

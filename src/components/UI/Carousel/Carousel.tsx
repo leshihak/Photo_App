@@ -17,7 +17,7 @@ const Carousel: FC<CarouselProps> = ({ items, oneItemInArray }) => (
     useKeyboardArrows
   >
     {items.map((item) =>
-      item.type === FileTypes.IMAGES ? (
+      item.type === FileTypes.PHOTOS ? (
         <img
           key={item.id}
           src={item.url}

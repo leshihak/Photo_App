@@ -78,7 +78,7 @@ const PostUsersLikeModal: FC = () => {
                 alignItems="center"
                 px={2}
                 py={1}
-                key={user.id}
+                key={user.uid}
               >
                 <Avatar
                   alt={user.name!!}

@@ -17,7 +17,7 @@ export const renderItemGrid = (
   setIsLoading?: Dispatch<SetStateAction<boolean>>
 ) => {
   switch (type) {
-    case FileTypes.IMAGES:
+    case FileTypes.PHOTOS:
       return (
         <img
           loading="lazy"
@@ -125,7 +125,7 @@ const ItemGrid: FC<ItemGridProps> = ({ items, type, onClick }) => {
                 fontWeight="bold"
                 sx={{ color: "white" }}
               >
-                {item.comments ? item.comments.length : 0}
+                {(item.comments && Object.keys(item.comments).length) ?? 0}
               </Typography>
             </Box>
           </Box>

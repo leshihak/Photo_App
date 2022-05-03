@@ -1,24 +1,23 @@
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import Loader from "components/UI/Loader/Loader";
-import useAuth from "hooks/useAuth";
 import { FC } from "react";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { useNavigate } from "react-router-dom";
+import useCurrentUser from "hooks/useCurrentUser";
 
 const ProfileInformation: FC = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
+  const currentUser = useCurrentUser();
 
-  if (!user) {
-    return <Loader />;
+  if (!currentUser) {
+    return null;
   }
 
   return (
     <Box display="flex">
       <Box display="flex" justifyContent="center" maxWidth={275} width={1}>
         <Avatar
-          alt={user.displayName!!}
-          src={user.photoURL!!}
+          alt={currentUser.name!!}
+          src={currentUser.photoURL!!}
           sx={{ width: 150, height: 150 }}
         />
       </Box>
@@ -33,7 +32,7 @@ const ProfileInformation: FC = () => {
               whiteSpace: "nowrap",
             }}
           >
-            {user.displayName}
+            {currentUser.name}
           </Typography>
           <Button
             variant="outlined"
@@ -73,19 +72,10 @@ const ProfileInformation: FC = () => {
         </Box>
         <Box display="flex" flexDirection="column" mt={2}>
           <Box display="flex">
-            <Typography fontWeight="bold">Nataliia Leshchak</Typography>
+            <Typography fontWeight="bold">{currentUser.username}</Typography>
           </Box>
           <Box display="flex">
-            <Typography>🌎 Visited 18 countries</Typography>
-          </Box>
-          <Box display="flex">
-            <Typography>💻 Software Developer</Typography>
-          </Box>
-          <Box display="flex">
-            <Typography>📷 Photography</Typography>
-          </Box>
-          <Box display="flex">
-            <Typography>👌 Volunteering</Typography>
+            <Typography>{currentUser.bio}</Typography>
           </Box>
         </Box>
       </Box>

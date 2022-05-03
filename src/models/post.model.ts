@@ -15,12 +15,12 @@ export interface Post {
 }
 
 export interface PostData {
-  images: Post[];
+  photos: Post[];
   videos: Post[];
   saved: Post[];
 }
 
-export type PostType = "images" | "saved" | "videos";
+export type PostType = "photos" | "saved" | "videos";
 
 export interface Comment {
   createdAt: number;

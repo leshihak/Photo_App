@@ -27,6 +27,7 @@ import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
 import usePostComments from "hooks/usePostComments";
 import { differenceInSeconds } from "date-fns/esm";
 import useKeyPress from "hooks/useKeyPress";
+import useUsers from "hooks/useUsers";
 
 interface PostProps {
   user: User | null;
@@ -45,7 +46,8 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
   const post = data[type][activeIndex];
 
   const inputRef = useRef<HTMLDivElement>(null);
-  const { comments } = usePostComments(post.uid);
+  const { comments, isLoadingComments } = usePostComments(post.uid);
+  const users = useUsers();
   const enterPressed = useKeyPress("Enter");
   const [commentValue, setCommentValue] = useState("");
   const [isLiked, setIsLiked] = useState(false);
@@ -122,7 +124,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
           </Box>
           <Box
             p={2}
-            maxHeight={600}
+            height={600}
             sx={{
               overflowY: "scroll",
               "&::-webkit-scrollbar": {
@@ -130,62 +132,89 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
               },
             }}
           >
-            {comments.map((comment) => {
-              const createdAt =
-                differenceInMinutes(new Date(), new Date(comment.createdAt)) ===
-                0
-                  ? `${differenceInSeconds(
+            {isLoadingComments
+              ? Array(5)
+                  .fill(1)
+                  .map((_, index) => (
+                    <Box display="flex" alignItems="center" py={1} key={index}>
+                      <Box
+                        width={32}
+                        height={32}
+                        borderRadius="50%"
+                        bgcolor="lightgray"
+                      />
+                      <Box ml={2}>
+                        <Box width={110} height={10} bgcolor="lightgray" />
+                        <Box
+                          width={220}
+                          mt={1}
+                          height={20}
+                          bgcolor="lightgray"
+                        />
+                      </Box>
+                    </Box>
+                  ))
+              : comments.map((comment) => {
+                  const createdAt =
+                    differenceInMinutes(
                       new Date(),
                       new Date(comment.createdAt)
-                    )}
+                    ) === 0
+                      ? `${differenceInSeconds(
+                          new Date(),
+                          new Date(comment.createdAt)
+                        )}
             s`
-                  : `${differenceInMinutes(
-                      new Date(),
-                      new Date(comment.createdAt)
-                    )}
+                      : `${differenceInMinutes(
+                          new Date(),
+                          new Date(comment.createdAt)
+                        )}
               m`;
 
-              return (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  px={2}
-                  py={1}
-                  key={comment.uid}
-                >
-                  <Avatar
-                    alt={undefined}
-                    src={undefined}
-                    sx={{ width: 44, height: 44 }}
-                  />
-                  <Box
-                    display="inline-block"
-                    ml={2}
-                    sx={{ wordBreak: "break-all" }}
-                  >
-                    <Typography variant="body2" fontWeight="bold">
-                      nataliia.leshchak
-                    </Typography>
-                    <Box display="inline">
-                      <span>{comment.text}</span>
-                    </Box>
-                    <Box display="flex" mt={2} mb={0.5}>
-                      <Typography
-                        sx={{ fontSize: 12, color: "#8e8e8e", mr: 2 }}
+                  const commentCreator = users.find(
+                    (user) => user.uid === comment.userId
+                  );
+
+                  return (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      py={1}
+                      key={comment.uid}
+                    >
+                      <Avatar
+                        alt={commentCreator?.username!!}
+                        src={commentCreator?.photoURL!!}
+                        sx={{ width: 32, height: 32 }}
+                      />
+                      <Box
+                        display="inline-block"
+                        ml={2}
+                        sx={{ wordBreak: "break-all" }}
                       >
-                        {createdAt}
-                      </Typography>
-                      <Typography
-                        sx={{ fontSize: 12, color: "#8e8e8e" }}
-                        fontWeight="bold"
-                      >
-                        Reply
-                      </Typography>
+                        <Typography variant="body2" fontWeight="bold">
+                          {commentCreator?.username}
+                        </Typography>
+                        <Box display="inline">
+                          <span>{comment.text}</span>
+                        </Box>
+                        <Box display="flex" mt={1.5} mb={0.5}>
+                          <Typography
+                            sx={{ fontSize: 12, color: "#8e8e8e", mr: 2 }}
+                          >
+                            {createdAt}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: 12, color: "#8e8e8e" }}
+                            fontWeight="bold"
+                          >
+                            Reply
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
-                  </Box>
-                </Box>
-              );
-            })}
+                  );
+                })}
           </Box>
           <Box>
             <Box

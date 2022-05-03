@@ -13,12 +13,11 @@ interface UsePostComments {
 const usePostComments = (postId: string): UsePostComments => {
   const { user } = useAuth();
 
-  const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [isLoadingComments, setIsLoadingComments] = useState(true);
   const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     if (user) {
-      setIsLoadingComments(true);
       onValue(
         ref(db, `${DataBaseModel.POSTS}/${user.uid}/photos/${postId}/comments`),
         (snapshot) => {

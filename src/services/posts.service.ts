@@ -16,7 +16,7 @@ export const setPostToUserToDB = (
     const storageRef = ref(storage, `/posts/${file.name}`);
     const uploadFile = uploadBytesResumable(storageRef, file);
     const type = FILE_TYPES.image.includes(file.type)
-      ? FileTypes.IMAGES
+      ? FileTypes.PHOTOS
       : FileTypes.VIDEOS;
 
     uploadFile.on(

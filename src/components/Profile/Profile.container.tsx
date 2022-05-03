@@ -34,14 +34,14 @@ const ProfileContainer: FC = () => {
   const location = useLocation();
   const { posts } = usePosts();
 
-  const tabNameToIndex: { [key: number]: string } = {
+  const tabNameToIndex: Record<number, string> = {
     0: `/user/${user?.uid}`,
     1: `/user/${user?.uid}/videos`,
     2: `/user/${user?.uid}/saved`,
   };
 
   const [openModal, setOpenModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<PostType>(FileTypes.IMAGES);
+  const [selectedType, setSelectedType] = useState<PostType>(FileTypes.PHOTOS);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [tabValue, setTabValue] = useState(
