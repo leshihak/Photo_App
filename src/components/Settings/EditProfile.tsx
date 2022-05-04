@@ -31,15 +31,15 @@ const EditProfile: FC = () => {
   }
 
   const initialValues = {
-    uid: currentUser.uid,
-    name: currentUser.name,
-    username: currentUser.username,
-    bio: currentUser.bio ?? null,
-    website: currentUser.website ?? null,
-    phoneNumber: currentUser.photoURL ?? null,
-    email: currentUser.email,
-    gender: currentUser.gender ?? null,
-    photoURL: currentUser.photoURL,
+    uid: currentUser.uid ?? "",
+    name: currentUser.name ?? "",
+    username: currentUser.username ?? "",
+    bio: currentUser.bio ?? "",
+    website: currentUser.website ?? "",
+    phoneNumber: currentUser.phoneNumber ?? "",
+    email: currentUser.email ?? "",
+    gender: currentUser.gender ?? "",
+    photoURL: currentUser.photoURL ?? "",
   };
 
   return (
@@ -141,6 +141,8 @@ const EditProfile: FC = () => {
                 sx={{
                   ml: 2,
                   textarea: {
+                    overflowY: "scroll",
+                    height: "60px !important",
                     p: "0 10px",
                     border: "1px solid #dbdbdb",
                     borderRadius: "3px",

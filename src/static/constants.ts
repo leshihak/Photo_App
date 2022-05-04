@@ -14,3 +14,7 @@ export enum FileTypes {
   VIDEOS = "videos",
   SAVED = "saved",
 }
+
+export const FIREBASE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/photoapp-5b23c.appspot.com/";
+export const IMAGE_KIT_URL = "https://ik.imagekit.io/spadheuh8/";

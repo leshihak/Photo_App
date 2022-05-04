@@ -74,9 +74,13 @@ const ProfileInformation: FC = () => {
           <Box display="flex">
             <Typography fontWeight="bold">{currentUser.username}</Typography>
           </Box>
-          <Box display="flex">
-            <Typography>{currentUser.bio}</Typography>
-          </Box>
+          <Box
+            dangerouslySetInnerHTML={{
+              __html: currentUser.bio
+                ? currentUser.bio.replace(/\n\r?/g, "<br />")
+                : "",
+            }}
+          />
         </Box>
       </Box>
     </Box>

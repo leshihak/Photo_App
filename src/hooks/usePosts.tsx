@@ -3,12 +3,8 @@ import { ref, onValue } from "firebase/database";
 import { Post, PostData } from "models/post.model";
 import { DataBaseModel } from "models/service.model";
 import { useEffect, useState } from "react";
-import { FileTypes } from "static/constants";
+import { FileTypes, FIREBASE_URL, IMAGE_KIT_URL } from "static/constants";
 import useAuth from "./useAuth";
-
-const FIREBASE_URL =
-  "https://firebasestorage.googleapis.com/v0/b/photoapp-5b23c.appspot.com/";
-const IMAGE_KIT_URL = "https://ik.imagekit.io/spadheuh8/";
 
 const ARRAY_OF_POST_TYPES = [
   FileTypes.PHOTOS,

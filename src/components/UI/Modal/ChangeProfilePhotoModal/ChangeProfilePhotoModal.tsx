@@ -1,7 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import useCurrentUser from "hooks/useCurrentUser";
 import { FC, useContext } from "react";
-import { updateUserInDB } from "services/users.service";
+import {
+  updateProfilePhotoToStorage,
+  updateUserInDB,
+} from "services/users.service";
 import { ModalRootContext } from "../ModalRoot/ModalRootContext";
 
 const ChangeProfilePhotoModal: FC = () => {
@@ -40,10 +43,11 @@ const ChangeProfilePhotoModal: FC = () => {
             hidden
             accept="image/jpeg,image/png"
             onChange={(event) =>
-              updateUserInDB(currentUser?.uid!!, {
-                ...currentUser,
-                photoURL: URL.createObjectURL(event.target.files?.[0]!!),
-              }).then(() => setModalType(null))
+              updateProfilePhotoToStorage(
+                currentUser,
+                event.target.files?.[0]!!,
+                setModalType
+              )
             }
           />
           Upload Photo

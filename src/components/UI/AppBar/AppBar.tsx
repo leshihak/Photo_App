@@ -36,39 +36,40 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
-import useAuth from "hooks/useAuth";
 import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
 import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
 import useCurrentUser from "hooks/useCurrentUser";
 
+const iconStyle = { width: 28, height: 28 };
+
 const pages = [
   {
-    icon: <HomeOutlinedIcon />,
-    activeIcon: <HomeIcon />,
+    icon: <HomeOutlinedIcon sx={iconStyle} />,
+    activeIcon: <HomeIcon sx={iconStyle} />,
     id: "HomeOutlinedIcon",
     href: "/",
   },
   {
-    icon: <ChatBubbleOutlineOutlinedIcon />,
-    activeIcon: <ChatBubbleIcon />,
+    icon: <ChatBubbleOutlineOutlinedIcon sx={iconStyle} />,
+    activeIcon: <ChatBubbleIcon sx={iconStyle} />,
     id: "ChatBubbleOutlineOutlinedIcon",
     href: "/inbox",
   },
   {
-    icon: <AddCircleOutlineIcon />,
-    activeIcon: <AddCircleIcon />,
+    icon: <AddCircleOutlineIcon sx={iconStyle} />,
+    activeIcon: <AddCircleIcon sx={iconStyle} />,
     id: "AddCircleOutlineIcon",
   },
   {
-    icon: <ExploreOutlinedIcon />,
-    activeIcon: <ExploreIcon />,
+    icon: <ExploreOutlinedIcon sx={iconStyle} />,
+    activeIcon: <ExploreIcon sx={iconStyle} />,
     id: "ExploreOutlinedIcon",
     href: "/explore",
   },
   {
-    icon: <FavoriteBorderIcon />,
-    activeIcon: <FavoriteIcon />,
+    icon: <FavoriteBorderIcon sx={iconStyle} />,
+    activeIcon: <FavoriteIcon sx={iconStyle} />,
     id: "FavoriteBorderIcon",
     href: "/favorite",
   },
@@ -270,11 +271,25 @@ const AppBar: FC = () => {
               onClick={(event) => setAnchorElUser(event.currentTarget)}
               sx={{ p: 0 }}
             >
-              <Avatar
-                alt={currentUser.name!!}
-                src={currentUser.photoURL!!}
-                sx={{ width: 24, height: 24, border: "1px solid #262626" }}
-              />
+              <Box
+                width={28}
+                height={28}
+                border="1px solid #262626"
+                borderRadius="50%"
+                position="relative"
+              >
+                <Avatar
+                  alt={currentUser.name!!}
+                  src={currentUser.photoURL!!}
+                  sx={{
+                    width: 24,
+                    height: 24,
+                    position: "absolute",
+                    top: 1,
+                    left: 1,
+                  }}
+                />
+              </Box>
             </IconButton>
             <Menu
               sx={{ mt: "45px" }}
