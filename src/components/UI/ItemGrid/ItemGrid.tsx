@@ -14,7 +14,8 @@ interface ItemGridProps {
 export const renderItemGrid = (
   item: Post,
   type: PostType,
-  setIsLoading?: Dispatch<SetStateAction<boolean>>
+  setIsLoading: Dispatch<SetStateAction<boolean>> | null,
+  autoPlay?: boolean
 ) => {
   switch (type) {
     case FileTypes.PHOTOS:
@@ -32,8 +33,15 @@ export const renderItemGrid = (
         />
       );
     case FileTypes.VIDEOS:
-      setIsLoading && setIsLoading(false);
-      return <video controls autoPlay src={item.url} />;
+      return (
+        <video
+          style={{ objectFit: "cover", height: "100%", width: "100%" }}
+          src={item.url}
+          controls={autoPlay}
+          autoPlay={autoPlay}
+          onLoadStart={() => setIsLoading && setIsLoading(false)}
+        />
+      );
     case FileTypes.SAVED:
       return (
         <img

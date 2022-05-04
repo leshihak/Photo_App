@@ -93,7 +93,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
           position: "relative",
         }}
       >
-        {renderItemGrid(post, type)}
+        {renderItemGrid(post, type, null, true)}
       </Grid>
       <Grid item md={5} borderLeft="1px solid #efefef">
         <Box

@@ -32,7 +32,7 @@ const ProfileContainer: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { posts } = usePosts();
+  const posts = usePosts();
 
   const tabNameToIndex: Record<number, string> = {
     0: `/user/${user?.uid}`,

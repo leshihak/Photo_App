@@ -28,9 +28,9 @@ const usePostComments = (postId: string): UsePostComments => {
                 uid: key,
               })
             );
-            setIsLoadingComments(false);
             setComments(result.reverse());
           }
+          setIsLoadingComments(false);
         }
       );
     }
