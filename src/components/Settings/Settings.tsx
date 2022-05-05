@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import TabPanel from "components/ui/TabPanel/TabPanel";
-import Tabs from "components/ui/Tabs/Tabs";
+import TabPanel from "components/UI/TabPanel/TabPanel";
+import Tabs from "components/UI/Tabs/Tabs";
 import { TabType } from "models/ui.model";
 import { FC, useState, SyntheticEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";

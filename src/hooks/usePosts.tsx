@@ -3,9 +3,16 @@ import { ref, onValue } from "firebase/database";
 import { Post, PostData } from "models/post.model";
 import { DataBaseModel } from "models/service.model";
 import { useEffect, useState } from "react";
+import { FileTypes, FIREBASE_URL, IMAGE_KIT_URL } from "static/constants";
 import useAuth from "./useAuth";
 
-const usePosts = () => {
+const ARRAY_OF_POST_TYPES = [
+  FileTypes.PHOTOS,
+  FileTypes.VIDEOS,
+  FileTypes.SAVED,
+];
+
+const usePosts = (): PostData => {
   const { user } = useAuth();
 
   const [posts, setPosts] = useState<PostData>({
@@ -15,23 +22,30 @@ const usePosts = () => {
   });
 
   useEffect(() => {
-    if (user) {
+    ARRAY_OF_POST_TYPES.forEach((post) =>
       onValue(
-        ref(db, `${DataBaseModel.POSTS}/${user.uid}/photos`),
+        ref(db, `${DataBaseModel.POSTS}/${user?.uid}/${post}`),
         (snapshot) => {
           if (snapshot.val()) {
             const result = Object.entries(snapshot.val())?.map(
-              ([key, value]) => ({
-                ...(value as Post),
-                uid: key,
-              })
+              ([key, value]) => {
+                const newUrl = (value as Post).url.replace(
+                  FIREBASE_URL,
+                  IMAGE_KIT_URL
+                );
+                return {
+                  ...(value as Post),
+                  url: newUrl,
+                  uid: key,
+                };
+              }
             );
-            setPosts({ ...posts, photos: result });
+            setPosts((prevState) => ({ ...prevState, [post]: result }));
           }
         }
-      );
-    }
-  }, [posts, user]);
+      )
+    );
+  }, [user]);
 
   return posts;
 };

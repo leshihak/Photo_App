@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import AppBar from "../AppBar/AppBar";
 
 const DashboardWrapper: FC = () => (
-  <Box height="calc(100vh - 60px)" bgcolor="#fafafa">
+  <Box height="calc(100vh - 60px)">
     <AppBar />
     <Box
       width={1}

@@ -1,15 +1,12 @@
 import { Box, Typography, Button } from "@mui/material";
 import { Dispatch, FC, SetStateAction } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Carousel from "components/ui/Carousel/Carousel";
+import Carousel from "components/UI/Carousel/Carousel";
+import { FileItem } from "models/post.model";
 
 interface PreviewFilesStepProps {
   onSetStep: Dispatch<SetStateAction<number>>;
-  files: {
-    id: string;
-    alt: string;
-    url: string;
-  }[];
+  files: FileItem[];
 }
 
 const PreviewFilesStep: FC<PreviewFilesStepProps> = ({ onSetStep, files }) => (

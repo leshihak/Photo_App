@@ -1,9 +1,11 @@
 import { Box, Modal } from "@mui/material";
-import PostCreationModal from "components/ui/modal/PostCreationModal/PostCreationModal";
+import PostCreationModal from "components/UI/Modal/PostCreationModal/PostCreationModal";
 import { FC, useContext, useEffect, useState } from "react";
 import { ModalTypes } from "static/constants";
 import { ModalRootContext } from "./ModalRootContext";
 import CloseIcon from "@mui/icons-material/Close";
+import PostUsersLikeModal from "../PostUsersLikeModal/PostUsersLikeModal";
+import ChangeProfilePhotoModal from "../ChangeProfilePhotoModal/ChangeProfilePhotoModal";
 
 const style = {
   position: "absolute",
@@ -15,8 +17,10 @@ const style = {
   borderRadius: "12px",
 };
 
-const MODAL_COMPONENTS: { [key: number]: FC } = {
+const MODAL_COMPONENTS: Record<number, FC> = {
   [ModalTypes.POST_CREATION_MODAL]: PostCreationModal,
+  [ModalTypes.POST_USERS_LIKE_MODAL]: PostUsersLikeModal,
+  [ModalTypes.CHANGE_PROFILE_PHOTO_MODAL]: ChangeProfilePhotoModal,
 };
 
 const ModalRoot: FC = () => {
@@ -31,6 +35,8 @@ const ModalRoot: FC = () => {
   useEffect(() => {
     if (modalType !== null) {
       setOpen(true);
+    } else {
+      setOpen(false);
     }
   }, [modalType]);
 

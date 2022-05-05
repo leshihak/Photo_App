@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
-import GoogleLogo from "components/ui/Icons/GoogleLogo";
+import GoogleLogo from "components/UI/Icons/GoogleLogo";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import useUsers from "hooks/useUsers";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,22 +11,29 @@ const Auth: FC = () => {
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
+  const users = useUsers();
 
   const handleSignIn = () =>
     signInWithPopup(auth, provider)
       .then((result) => {
         const { user } = result;
         navigate("/");
-        setUserToDB(user.uid, {
-          id: user.uid,
-          photoURL: user.photoURL,
-          name: user.displayName,
-          username: user.displayName,
-          email: user.email,
-          phoneNumber: user.phoneNumber,
-          bio: null,
-          gender: null,
-        });
+
+        const currentUser = users.find((_user) => _user.uid === user?.uid);
+
+        if (!currentUser) {
+          setUserToDB(user.uid, {
+            uid: user.uid,
+            photoURL: user.photoURL,
+            name: user.displayName,
+            username: user.displayName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            bio: null,
+            gender: null,
+            website: null,
+          });
+        }
       })
       .catch((error) => toast.error(error.message));
 

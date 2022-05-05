@@ -7,8 +7,10 @@ import PreviewFilesStep from "./PreviewFilesStep";
 import CreatePostStep from "./CreatePostStep";
 import useAuth from "hooks/useAuth";
 import PostSharingStep from "./PostSharingStep";
-import { setPhotoPostToUserToDB } from "services/posts.service";
+import { setPostToUserToDB } from "services/posts.service";
 import PostSharedStep from "./PostSharedStep";
+import { FileItem } from "models/post.model";
+import { FileTypes, FILE_TYPES } from "static/constants";
 
 const PostCreationModal: FC = () => {
   const [step, setStep] = useState(0);
@@ -26,14 +28,14 @@ const PostCreationModal: FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const preparedFiles = files?.map((file) => ({
+  const preparedFiles: FileItem[] = files?.map((file) => ({
     id: `${file.lastModified}-${file.name}`,
     alt: file.name,
     url: URL.createObjectURL(file),
+    type: FILE_TYPES.image.includes(file.type)
+      ? FileTypes.PHOTOS
+      : FileTypes.VIDEOS,
   }))!!;
-
-  const handleCreatePost = () =>
-    setPhotoPostToUserToDB(user?.uid, files, setStep);
 
   return (
     <Box
@@ -58,7 +60,7 @@ const PostCreationModal: FC = () => {
           onSetStep={setStep}
           files={preparedFiles}
           user={user}
-          onCreatePost={handleCreatePost}
+          onCreatePost={() => setPostToUserToDB(user?.uid, files, setStep)}
         />
       )}
       {step === 3 && <PostSharingStep />}

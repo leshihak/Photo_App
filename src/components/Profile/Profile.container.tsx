@@ -2,15 +2,16 @@ import { FC, SyntheticEvent, useEffect, useState } from "react";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "hooks/useAuth";
-import Loader from "components/ui/Loader/Loader";
+import Loader from "components/UI/Loader/Loader";
 import { PostType } from "models/post.model";
 import { TabType } from "models/ui.model";
 import Profile from "./Profile";
-import ModalSlideshow from "components/ui/ModalSlideshow/ModalSlideshow";
+import ModalSlideshow from "components/UI/ModalSlideshow/ModalSlideshow";
 import usePosts from "hooks/usePosts";
 import { getKeyByValue } from "utils/helper";
+import { FileTypes } from "static/constants";
 
 const TABS: TabType[] = [
   {
@@ -30,22 +31,25 @@ const TABS: TabType[] = [
 const ProfileContainer: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
+  const { page } = useParams();
   const posts = usePosts();
 
-  const tabNameToIndex: { [key: number]: string } = {
+  const tabNameToIndex: Record<number, string> = {
     0: `/user/${user?.uid}`,
     1: `/user/${user?.uid}/videos`,
     2: `/user/${user?.uid}/saved`,
   };
 
+  const currentTab = getKeyByValue(
+    tabNameToIndex,
+    `/user/${user?.uid}/${page ?? ""}`
+  );
+
   const [openModal, setOpenModal] = useState(false);
-  const [selectedType, setSelectedType] = useState<PostType>("photos");
+  const [selectedType, setSelectedType] = useState<PostType>(FileTypes.PHOTOS);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
-  const [tabValue, setTabValue] = useState(
-    getKeyByValue(tabNameToIndex, location.pathname) ?? 0
-  );
+  const [tabValue, setTabValue] = useState(currentTab ?? 0);
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     navigate(tabNameToIndex[newValue]);
@@ -62,11 +66,10 @@ const ProfileContainer: FC = () => {
     }
   }, [activeItemId, selectedType, posts]);
 
-  // NEED TO FIX (CLICK ON PROFILE IMG)
-  // useEffect(() => {
-  //   setTabValue(indexToTab[location.pathname]);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [location]);
+  useEffect(() => {
+    setTabValue(currentTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, user?.uid]);
 
   if (!user) {
     return <Loader />;

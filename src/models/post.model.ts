@@ -11,6 +11,7 @@ export interface Post {
   uid: string;
   comments: Comment[];
   userIdsWhoLikedPost: [];
+  createdAt: number;
 }
 
 export interface PostData {
@@ -20,3 +21,17 @@ export interface PostData {
 }
 
 export type PostType = "photos" | "saved" | "videos";
+
+export interface Comment {
+  createdAt: number;
+  text: string;
+  userId: string;
+  uid: string;
+}
+
+export interface FileItem {
+  id: string;
+  alt: string;
+  url: string;
+  type: PostType;
+}

@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { User } from "firebase/auth";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useRef, useState } from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
@@ -17,11 +17,17 @@ import EmojiEmotionsOutlinedIcon from "@mui/icons-material/EmojiEmotionsOutlined
 import { PostData, PostType } from "models/post.model";
 import { renderItemGrid } from "../ItemGrid/ItemGrid";
 import Loader from "../Loader/Loader";
-import { toggleLikeToPost } from "services/posts.service";
+import { setCommentToPost, toggleLikeToPost } from "services/posts.service";
 import { db } from "config/firebase";
 import { onValue } from "firebase/database";
 import { DataBaseModel } from "models/service.model";
 import { ref } from "firebase/database";
+import { differenceInMinutes, format } from "date-fns";
+import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
+import usePostComments from "hooks/usePostComments";
+import { differenceInSeconds } from "date-fns/esm";
+import useKeyPress from "hooks/useKeyPress";
+import useUsers from "hooks/useUsers";
 
 interface PostProps {
   user: User | null;
@@ -37,10 +43,15 @@ const iconStyle = {
 };
 
 const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
+  const post = data[type][activeIndex];
+
+  const inputRef = useRef<HTMLDivElement>(null);
+  const { comments, isLoadingComments } = usePostComments(post.uid);
+  const users = useUsers();
+  const enterPressed = useKeyPress("Enter");
   const [commentValue, setCommentValue] = useState("");
   const [isLiked, setIsLiked] = useState(false);
-
-  const post = data[type][activeIndex];
+  const { setModalType, setSelectedPost } = useContext(ModalRootContext);
 
   useEffect(() => {
     onValue(
@@ -55,6 +66,11 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
   if (!user) {
     return <Loader />;
   }
+
+  const handleSubmit = () => {
+    setCommentToPost(user.uid, post.uid, commentValue);
+    setCommentValue("");
+  };
 
   return (
     <Grid
@@ -77,7 +93,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
           position: "relative",
         }}
       >
-        {renderItemGrid(post, type)}
+        {renderItemGrid(post, type, null, true)}
       </Grid>
       <Grid item md={5} borderLeft="1px solid #efefef">
         <Box
@@ -106,13 +122,100 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
               </Typography>
             </Box>
           </Box>
-          {post.comments && (
-            <Box p={2} height={200}>
-              {post.comments.map((comment) => (
-                <>{comment}</>
-              ))}
-            </Box>
-          )}
+          <Box
+            p={2}
+            height={600}
+            sx={{
+              overflowY: "scroll",
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+          >
+            {isLoadingComments
+              ? Array(5)
+                  .fill(1)
+                  .map((_, index) => (
+                    <Box display="flex" alignItems="center" py={1} key={index}>
+                      <Box
+                        width={32}
+                        height={32}
+                        borderRadius="50%"
+                        bgcolor="lightgray"
+                      />
+                      <Box ml={2}>
+                        <Box width={110} height={10} bgcolor="lightgray" />
+                        <Box
+                          width={220}
+                          mt={1}
+                          height={20}
+                          bgcolor="lightgray"
+                        />
+                      </Box>
+                    </Box>
+                  ))
+              : comments.map((comment) => {
+                  const createdAt =
+                    differenceInMinutes(
+                      new Date(),
+                      new Date(comment.createdAt)
+                    ) === 0
+                      ? `${differenceInSeconds(
+                          new Date(),
+                          new Date(comment.createdAt)
+                        )}
+            s`
+                      : `${differenceInMinutes(
+                          new Date(),
+                          new Date(comment.createdAt)
+                        )}
+              m`;
+
+                  const commentCreator = users.find(
+                    (user) => user.uid === comment.userId
+                  );
+
+                  return (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      py={1}
+                      key={comment.uid}
+                    >
+                      <Avatar
+                        alt={commentCreator?.username!!}
+                        src={commentCreator?.photoURL!!}
+                        sx={{ width: 32, height: 32 }}
+                      />
+                      <Box
+                        display="inline-block"
+                        ml={2}
+                        sx={{ wordBreak: "break-all" }}
+                      >
+                        <Typography variant="body2" fontWeight="bold">
+                          {commentCreator?.username}
+                        </Typography>
+                        <Box display="inline">
+                          <span>{comment.text}</span>
+                        </Box>
+                        <Box display="flex" mt={1.5} mb={0.5}>
+                          <Typography
+                            sx={{ fontSize: 12, color: "#8e8e8e", mr: 2 }}
+                          >
+                            {createdAt}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: 12, color: "#8e8e8e" }}
+                            fontWeight="bold"
+                          >
+                            Reply
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  );
+                })}
+          </Box>
           <Box>
             <Box
               display="flex"
@@ -133,7 +236,10 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                     <FavoriteBorderIcon sx={iconStyle} />
                   )}
                 </span>
-                <ChatBubbleOutlineIcon sx={iconStyle} />
+                <ChatBubbleOutlineIcon
+                  sx={iconStyle}
+                  onClick={() => inputRef.current?.focus()}
+                />
                 <SendOutlinedIcon sx={iconStyle} />
               </Box>
               <Box>
@@ -145,16 +251,29 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                 {post.userIdsWhoLikedPost === undefined ? (
                   <>
                     Be the first to
-                    <span style={{ fontWeight: "bold" }}>&nbsp;like this</span>
+                    <span
+                      style={{ fontWeight: "bold", cursor: "pointer" }}
+                      onClick={() =>
+                        toggleLikeToPost(user.uid, post.uid, isLiked)
+                      }
+                    >
+                      &nbsp;like this
+                    </span>
                   </>
                 ) : (
-                  <span style={{ fontWeight: "bold" }}>
+                  <span
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    onClick={() => {
+                      setSelectedPost(post);
+                      setModalType(1);
+                    }}
+                  >
                     {Object.keys(post.userIdsWhoLikedPost).length}&nbsp;like
                   </span>
                 )}
               </Typography>
             </Box>
-            <Box px={2} pt={1}>
+            <Box px={2}>
               <Typography
                 variant="caption"
                 sx={{
@@ -163,7 +282,7 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                   textTransform: "uppercase",
                 }}
               >
-                JANUARY 20
+                {format(new Date(post.createdAt), "LLLL d")}
               </Typography>
             </Box>
             <Box
@@ -171,12 +290,14 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
               alignItems="center"
               justifyContent="space-between"
               borderTop="1px solid #efefef"
-              p={2}
+              px={2}
+              py={0.5}
               mt={2}
-              height={53}
+              minHeight={53}
             >
               <EmojiEmotionsOutlinedIcon />
               <TextField
+                inputRef={inputRef}
                 fullWidth
                 sx={{
                   ml: 2,
@@ -190,13 +311,15 @@ const Post: FC<PostProps> = ({ user, data, type, activeIndex }) => {
                 onChange={(event) => setCommentValue(event.target.value)}
                 multiline
                 placeholder="Add a comment..."
-                maxRows={4}
+                maxRows={5}
+                onKeyPress={() => (enterPressed ? handleSubmit() : null)}
               />
               <Button
                 type="submit"
                 variant="text"
                 color="primary"
                 disabled={commentValue.trim().length === 0}
+                onClick={handleSubmit}
               >
                 Post
               </Button>
