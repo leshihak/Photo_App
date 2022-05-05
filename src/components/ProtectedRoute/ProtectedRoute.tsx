@@ -1,6 +1,8 @@
 import { User } from "firebase/auth";
-import { FC } from "react";
-// import { Navigate } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { RootState } from "store";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
   user: User | null;
@@ -13,10 +15,22 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({
   user,
   isLoading,
 }) => {
+  const { authUser } = useSelector((state: RootState) => state.auth);
   // NEED TO FIX
-  // if (!user && isLoading) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(authUser);
+    if (!authUser) {
+      navigate("/login");
+      // return <Navigate to="/login" replace />;
+    }
+  }, [authUser, navigate]);
+  // if (!authUser) {
   //   return <Navigate to="/login" replace />;
   // }
+
+  console.log(authUser);
 
   return children;
 };

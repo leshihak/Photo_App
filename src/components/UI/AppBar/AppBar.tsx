@@ -40,6 +40,10 @@ import InstagramLogo from "../Icons/InstagramLogo";
 import Loader from "../Loader/Loader";
 import { ModalRootContext } from "../Modal/ModalRoot/ModalRootContext";
 import useCurrentUser from "hooks/useCurrentUser";
+import { setAuthUser } from "store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import useAuth from "hooks/useAuth";
+import { RootState } from "store";
 
 const iconStyle = { width: 28, height: 28 };
 
@@ -116,10 +120,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const AppBar: FC = () => {
   const auth = getAuth();
+  const { user } = useAuth();
+  const { authUser } = useSelector((state: RootState) => state.auth);
+  // console.log(authUser);
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const location = useLocation();
   const { setModalType } = useContext(ModalRootContext);
+  const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -147,10 +155,13 @@ const AppBar: FC = () => {
     },
   ];
 
-  const handleSignOut = () =>
+  const handleSignOut = () => {
+    dispatch(setAuthUser(false));
+
     signOut(auth)
       .then(() => navigate("/login"))
       .catch((error) => toast.error(error.message));
+  };
 
   const handleAddPhotoPost = () => setModalType(0);
 

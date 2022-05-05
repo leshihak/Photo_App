@@ -19,7 +19,8 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@models/*": ["./src/models/*"]
+      "@models/*": ["./src/models/*"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["src"]
